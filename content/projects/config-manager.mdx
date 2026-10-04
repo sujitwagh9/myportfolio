@@ -1,0 +1,39 @@
+---
+title: "Config Manager"
+summary: "A configuration generator that builds each Data Platform deployment's settings from a few inputs, cutting manual work and configuration errors."
+date: "2026-01-01"
+tagline: "Every deployment's config, generated from a few inputs."
+metric: "1 → N"
+metricLabel: "deployments, one template"
+icon: "settings"
+order: 5
+featured: false
+role: "Co-designer and developer"
+stack: ["Docker", "Apache Superset", "Apache NiFi", "Nginx"]
+tags: ["automation", "configuration", "devops", "deployment"]
+problem: "Every deployment needed different service settings and optional Azure AD, and keeping separate config files by hand was becoming error-prone."
+outcome: "Standardised, automated configuration across deployments: fewer errors, faster rollouts and consistent environments."
+---
+
+## Problem
+
+As the platform spread to more businesses, each deployment needed different settings: service-specific configuration, which services to run, and whether Azure AD sign-in was required. Maintaining separate configuration files by hand for services like Apache Superset and Apache NiFi became complex and error-prone.
+
+## Design
+
+We designed and built a **Config Manager**, a system that generates configuration dynamically:
+
+- It takes deployment inputs such as **company name, SSL certificates, required services and authentication preferences**.
+- It fills those values into standard templates and the relevant files, and **turns features like Azure AD on or off** depending on the inputs.
+- It handles sensitive parameters such as client credentials automatically, so they aren't edited by hand.
+
+[PLACEHOLDER: the language or tooling the Config Manager is written in, and how it's run.]
+
+## Stack
+
+Docker · Apache Superset · Apache NiFi · Nginx
+
+## Outcome
+
+- Far less manual work and fewer configuration errors.
+- Faster deployments, with consistent settings in every environment.

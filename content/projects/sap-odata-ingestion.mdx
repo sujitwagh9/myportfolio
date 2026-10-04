@@ -1,0 +1,33 @@
+---
+title: "SAP OData Ingestion via NiFi"
+summary: "Automated extraction of SAP data through OData services into the data platform using Apache NiFi."
+date: "2025-09-01"
+hidden: true # [PLACEHOLDER] unhide once the details are filled in
+order: 8
+featured: true
+role: "Data engineer"
+stack: ["Apache NiFi", "SAP OData", "PostgreSQL", "Docker"]
+tags: ["sap", "odata", "ingestion", "nifi"]
+problem: "[PLACEHOLDER: how was SAP data being extracted before, and why was that a problem?]"
+outcome: "[PLACEHOLDER: what this ingestion made possible.]"
+---
+
+## Problem
+
+[PLACEHOLDER: describe which SAP modules or entities were needed and by whom.]
+
+## Architecture
+
+- NiFi calls SAP OData services, handles paging and authentication, and converts responses into records.
+- Records are validated and written to PostgreSQL staging tables.
+- Downstream flows promote the data into the reporting layer used by Superset.
+
+[PLACEHOLDER: confirm incremental-load strategy, error handling and scheduling.]
+
+## Stack
+
+Apache NiFi · SAP OData · PostgreSQL · Docker
+
+## Outcome
+
+[PLACEHOLDER: real outcome.]

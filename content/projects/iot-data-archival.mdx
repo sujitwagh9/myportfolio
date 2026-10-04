@@ -1,0 +1,39 @@
+---
+title: "IoT Data Archival: 1.4 TB → 18 GB"
+summary: "Compressed nearly 1.4 TB of IoT production data to 18 GB for archival, just as the IoT team was running out of storage."
+date: "2025-11-01"
+tagline: "Rescued a production server that was running out of storage."
+metric: "1.4 TB → 18 GB"
+metricLabel: "IoT data archived"
+icon: "archive"
+order: 2
+featured: true
+role: "Owner: deployment, monitoring and archival"
+stack: ["PostgreSQL", "Docker", "Grafana", "Prometheus", "Linux"]
+tags: ["iot", "archival", "storage optimisation", "production"]
+problem: "The IoT team's production server was running out of storage space, putting the production system at risk."
+outcome: "About 1.4 TB of IoT production data archived into 18 GB, stabilising the production environment."
+---
+
+## Problem
+
+The IoT team's production server was close to running out of storage. Without action, the production system risked failing.
+
+## Approach
+
+- Independently deployed the Data Platform on the IoT production server.
+- Set up end-to-end monitoring of system and application performance with Grafana and Prometheus, so the archival could run safely alongside production workloads.
+- Archived and compressed the historical production data.
+
+[PLACEHOLDER: how the compression was done, e.g. the format, tooling and how the archive is queried or restored. Only add what you can share publicly.]
+
+## Stack
+
+PostgreSQL · Docker · Grafana · Prometheus · Linux
+
+[PLACEHOLDER: confirm the stack used for the archival itself.]
+
+## Outcome
+
+- About **1.4 TB → 18 GB** of IoT production data archived.
+- Archival finished in time, avoiding storage-related failures and stabilising the production environment.

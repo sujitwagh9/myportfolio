@@ -1,0 +1,35 @@
+---
+title: "Azure AD Single Sign-On for the Data Platform"
+summary: "Integrated Azure Active Directory sign-on (OAuth 2.0 / OpenID Connect) into Apache Superset, with Azure AD users mapped to Superset roles. Now rolling out to the rest of the stack."
+date: "2025-12-01"
+tagline: "Company-wide sign-in for the platform's services."
+metric: "SSO"
+metricLabel: "Azure AD + OIDC"
+icon: "key"
+order: 4
+featured: false
+role: "Owner: research and implementation"
+stack: ["Azure AD", "OAuth 2.0", "OpenID Connect", "Apache Superset", "Python"]
+tags: ["security", "identity", "sso", "azure ad", "oidc"]
+problem: "After go-live, the platform needed secure, centralised identity management instead of separate logins per service."
+outcome: "Users sign in to Superset with Azure AD; the rollout to the remaining services is in progress."
+---
+
+## Problem
+
+Once the Data Platform was in production, each service needed secure authentication tied to the company's central identity provider, **Azure Active Directory**.
+
+## Implementation
+
+- Studied the OAuth 2.0 / OpenID Connect flows and how Apache Superset handles external authentication providers.
+- Registered the application and gathered its Azure AD credentials (client ID, client secret, tenant ID).
+- Changed Superset's configuration to use Azure AD as an OIDC identity provider. This included security manager overrides, the right scopes, and **mapping Azure AD users to Superset roles**.
+- Worked through several rounds of debugging the authentication flow until sign-in worked reliably.
+
+## Stack
+
+Azure AD · OAuth 2.0 / OpenID Connect · Apache Superset · Python
+
+## Outcome
+
+Users log in to Superset securely with their Azure AD accounts. I'm now extending Azure AD authentication to the platform's other services, for centralised identity management across the whole stack.

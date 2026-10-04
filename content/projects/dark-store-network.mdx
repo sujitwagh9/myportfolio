@@ -1,0 +1,36 @@
+---
+title: "Dark Store Network Projection System"
+summary: "Clusters customer demand and generates Voronoi maps to plan dark-store placement city-wide. 2nd Runner-Up at Hackron'25 (sponsored by Blinkit)."
+date: "2025-03-01"
+tagline: "Where should a quick-commerce company open its next dark store?"
+metric: "2nd"
+metricLabel: "Hackron'25 · Blinkit"
+icon: "map"
+order: 11
+featured: true
+role: "[PLACEHOLDER: your role on the team]"
+stack: ["Next.js", "Flask", "Python", "MongoDB"]
+tags: ["hackathon", "geospatial", "clustering", "quick commerce"]
+github: "https://github.com/[PLACEHOLDER: repo link]"
+problem: "Quick-commerce companies need to decide where to open dark stores so that demand is covered within a budget."
+outcome: "2nd Runner-Up at Hackron'25 (sponsored by Blinkit), with a Rs. 10,000 cash prize."
+---
+
+## Problem
+
+Choosing where to place dark stores across a city means balancing customer demand against rent and running costs.
+
+## Architecture
+
+- Customer demand locations are **clustered** to find natural service areas.
+- **Voronoi maps** are generated from candidate store locations to show the area each store would serve.
+- Average **rental and operational expenditure** is estimated from economic data.
+- A **Flask API** returns expected expenditure for a given set of coordinates and budget, consumed by a Next.js front end. Data is stored in MongoDB.
+
+## Stack
+
+Next.js · Flask · Python · MongoDB
+
+## Outcome
+
+Won **2nd Runner-Up at Hackron'25**, sponsored by Blinkit, with a cash prize of Rs. 10,000.

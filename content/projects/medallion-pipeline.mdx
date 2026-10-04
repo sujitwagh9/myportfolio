@@ -1,0 +1,33 @@
+---
+title: "Medallion Pipeline (Bronze → Silver → Gold)"
+summary: "A layered pipeline that lands raw data, cleans and conforms it, and publishes business-ready tables for dashboards."
+date: "2025-10-01"
+hidden: true # [PLACEHOLDER] unhide once the details are filled in
+order: 7
+featured: true
+role: "Data engineer"
+stack: ["Apache NiFi", "PostgreSQL", "SQL", "Apache Superset"]
+tags: ["medallion", "data modelling", "pipelines"]
+problem: "[PLACEHOLDER: what was wrong with the data before the layered pipeline existed?]"
+outcome: "[PLACEHOLDER: what improved once the bronze, silver and gold layers were in place?]"
+---
+
+## Problem
+
+[PLACEHOLDER: describe the source systems, the quality issues, and who needed the data.]
+
+## Architecture
+
+- **Bronze:** raw data landed as-is from each source, so any downstream table can be rebuilt.
+- **Silver:** cleaned, de-duplicated and type-checked data with consistent keys across sources.
+- **Gold:** business-level tables and aggregates that dashboards read from directly.
+
+[PLACEHOLDER: confirm the tools used for each layer and how jobs are scheduled.]
+
+## Stack
+
+Apache NiFi · PostgreSQL · SQL · Apache Superset
+
+## Outcome
+
+[PLACEHOLDER: real outcome. Do not add metrics you cannot back up.]

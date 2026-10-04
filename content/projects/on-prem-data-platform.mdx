@@ -1,0 +1,61 @@
+---
+title: "Kalyani Data Platform (V1)"
+summary: "Built a self-hosted, open-source data platform from research to production and deployed it across five Kalyani Group environments, replacing costly third-party SaaS."
+date: "2025-07-01"
+tagline: "A self-hosted data platform, from research to production."
+metric: "5"
+metricLabel: "production deployments"
+icon: "server"
+order: 1
+featured: true
+role: "End-to-end owner: research, development, deployment and operations"
+stack:
+  [
+    "Apache NiFi",
+    "Apache Superset",
+    "PostgreSQL",
+    "pgAdmin",
+    "pgAgent",
+    "Nginx",
+    "Grafana",
+    "Prometheus",
+    "Docker",
+    "Azure AD",
+  ]
+tags: ["data platform", "self-hosted", "open source", "kalyani group", "devops", "observability"]
+problem: "Business units relied on costly third-party SaaS tools for ingestion and reporting, with manual data processing in between."
+outcome: "Live in five production environments (BFAL US, Saarloha, KSSL, BFL, IoT), with more deployments in progress and positive feedback from stakeholders."
+---
+
+## Problem
+
+Teams across the group relied on costly third-party SaaS products to move and report on their data. Processing between systems was largely manual, so reports were slow to produce and hard to trust. The group needed one platform it could own, run on-premise and roll out to each business.
+
+## Research
+
+I evaluated a set of open-source tools for architecture, integration compatibility and fit with the platform's ingestion, transformation, visualization and observability needs:
+
+Apache Superset · Apache NiFi · PostgreSQL · Apache Spark · Apache Iceberg · MinIO · pgAdmin · Grafana · Prometheus
+
+V1 was scoped around **seven** of them: PostgreSQL, Apache NiFi, Apache Superset, pgAdmin, Nginx, Grafana and Prometheus.
+
+## Architecture
+
+- **Ingestion and transformation: Apache NiFi.** There was no reliable documentation for running NiFi in containers, so I found the working setup myself by reading error logs and systematically testing configuration combinations. Along the way I learned NiFi's property files and internals in depth.
+- **Storage: PostgreSQL**, managed through **pgAdmin**. Jobs are scheduled with **pgAgent**, running in a custom Docker image I built (see the pgAgent case study).
+- **Visualization: Apache Superset.** I compared four deployment approaches, validated the chosen one against Superset's source code, and wrote a multi-service Compose setup (superset-init, Redis, superset-worker, superset-worker-beat and the core service), with PostgreSQL as the metadata store.
+- **Observability: Grafana and Prometheus.** Node Exporter runs as a systemd service to expose VM metrics. Prometheus scrapes them, and Grafana shows live system-health dashboards.
+- **Access: Nginx** as an SSL-terminating reverse proxy, with one server block per service, HTTP-to-HTTPS redirects and FQDN-based routing. NiFi needed specific proxy headers to accept forwarded requests.
+- **Network:** I set up DNS records for each service's FQDN, deployed the SSL certificates, and coordinated with the networking team. Users reach every service by name, without needing internal IPs or ports.
+- **Security and operations:** Azure AD sign-on, a Config Manager that generates each deployment's configuration, and encrypted Compose files (each covered in its own case study).
+
+## Stack
+
+Apache NiFi · Apache Superset · PostgreSQL · pgAdmin · pgAgent · Nginx · Grafana · Prometheus · Docker · Azure AD · Linux (systemd)
+
+## Outcome
+
+- Replaced dependency on costly third-party SaaS with a platform the group owns.
+- Deployed end to end to **five production environments** (BFAL US, Saarloha, KSSL, BFL and the IoT team), plus internal VMs for development and feature testing.
+- Received appreciation from stakeholders, with further deployments in progress.
+- I own ongoing operations: monitoring, incident resolution, deployment documentation and network coordination.

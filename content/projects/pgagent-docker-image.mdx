@@ -1,0 +1,38 @@
+---
+title: "Custom pgAgent Docker Image"
+summary: "Built a containerised pgAgent job scheduler from scratch, since no official image existed, to automate data pipelines across multiple databases."
+date: "2025-09-01"
+tagline: "Containerised a job scheduler that had no Docker image."
+metric: "0 → 1"
+metricLabel: "image built from scratch"
+icon: "boxes"
+order: 3
+featured: true
+role: "Researcher and builder"
+stack: ["pgAgent", "PostgreSQL", "Docker", "Linux"]
+tags: ["scheduling", "docker", "postgresql", "automation"]
+problem: "The platform needed reliable job scheduling across several databases, but the obvious tool only supported one database and the right one had no Docker support."
+outcome: "A working, production-ready pgAgent container integrated into the Dockerised Data Platform."
+---
+
+## Problem
+
+Automating the data pipeline required a reliable job scheduler inside a fully Dockerised platform that hosts **multiple databases**.
+
+## What I tried first
+
+I started with **pg_cron**, a cron-style scheduling extension for PostgreSQL, and modified the PostgreSQL Dockerfile to include it. Once it was running, I hit a critical limitation: pg_cron works on a **single database per cluster**, which doesn't fit a multi-database platform.
+
+## The fix
+
+**pgAgent** is a job scheduler built for PostgreSQL that handles this case. But it had **no official Docker support**: it's normally installed directly on the host, and there was no maintained community image.
+
+Rather than treat that as a blocker, I built our own image from scratch. I studied the official pgAgent documentation and its source code, and iterated through trial and error until the container worked reliably with the rest of the platform.
+
+## Stack
+
+pgAgent · PostgreSQL · Docker · Linux
+
+## Outcome
+
+A fully functional, containerised pgAgent that schedules pipeline jobs across the platform's databases. It's one of my most significant technical achievements, solved entirely through independent research.

@@ -1,0 +1,14 @@
+node_modules
+.next
+out
+next-env.d.ts
+*.tsbuildinfo
+.env
+.env.local
+.env.*.local
+src/data/embeddings.json
+.vercel
+npm-debug.log*
+/Sujit_Resume_BFL.pdf
+/Sujit_Wagh_Internship_Report.docx
+PROMPT.md

@@ -1,0 +1,36 @@
+---
+title: "Encrypted Docker Compose Deployments"
+summary: "Protected the platform's Docker Compose files with per-deployment encryption keys, decrypted only at runtime, without the key ever reaching shell history or process lists."
+date: "2026-02-01"
+tagline: "Secrets stay encrypted, even for people with VM access."
+metric: "1 key"
+metricLabel: "per deployment"
+icon: "lock"
+order: 6
+featured: false
+role: "Designer and implementer"
+stack: ["Docker", "Linux", "Bash"]
+tags: ["security", "secrets management", "docker", "devops"]
+problem: "Compose files on deployment VMs contained credentials, endpoints and integration settings readable by anyone with VM access."
+outcome: "Configuration is encrypted at rest with isolated keys per deployment, while deployments still run seamlessly."
+---
+
+## Problem
+
+Deploying across many VMs revealed a security gap: Docker Compose files held sensitive details (service credentials, endpoints, integration parameters) that **anyone with VM-level access could read or copy**.
+
+## Approach
+
+- Built a custom encryption mechanism so Compose files stay encrypted on disk and are **decrypted only at runtime** with a secure key.
+- Generated a **unique key per deployment**, so environments are isolated and one key can't unlock another.
+- Made the workflow itself safe: the key is never passed as a command-line argument. It's read with secure input methods, so it never appears in **shell history, process lists or command logs**.
+
+[PLACEHOLDER: confirm the scripting language and encryption tool. Keep public details at this level.]
+
+## Stack
+
+Docker · Linux · Bash [PLACEHOLDER: confirm]
+
+## Outcome
+
+Sensitive configuration is protected at rest. Even someone with VM access can't read or reuse the Compose configuration without that deployment's key, and deployments still run normally.
