@@ -30,14 +30,13 @@ export const experience: Experience[] = [
   {
     company: "Kalyani Group",
     role: "Data & AI Engineer",
-    team: "Data Platform Team",
-    period: "[PLACEHOLDER: start month] – Present",
+    team: "Data Team",
+    period: "July 2026 – Present",
     current: true,
     location: "Pune, India",
     highlights: [
       { value: "5", label: "live deployments owned" },
       { value: "SSO", label: "Azure AD rollout" },
-      { value: "Live", label: "health monitoring" },
     ],
     summary:
       "Joined full time after the internship. I own the Data Platform I built as an intern, from new deployments to day-to-day operations.",
@@ -46,7 +45,7 @@ export const experience: Experience[] = [
       "Rolling out new client deployments across the Kalyani Group ecosystem.",
       "Extending Azure AD single sign-on from Apache Superset to the rest of the platform's services.",
       "Building new platform features based on feedback from existing deployments.",
-      "[PLACEHOLDER: anything new you have taken on since going full time]",
+      "Working on the Prompt to Dashboard project for the Internal Team",
     ],
     stack: [
       "Apache NiFi",
@@ -63,7 +62,7 @@ export const experience: Experience[] = [
     company: "Kalyani Group",
     role: "AI/ML Intern",
     team: "Data Platform Team",
-    period: "Jul 2025 – [PLACEHOLDER: end month]",
+    period: "Jul 2025 – July 2026",
     location: "Pune, India",
     highlights: [
       { value: "0 → 1", label: "platform built" },
@@ -99,7 +98,7 @@ export const experience: Experience[] = [
     entities: [
       {
         code: "BFAL US",
-        name: "[PLACEHOLDER: BFAL full entity name]",
+        name: "Bharat Forge Aluminum USA, Inc",
         bullets: [DEPLOYED],
       },
       {
@@ -119,7 +118,7 @@ export const experience: Experience[] = [
       },
       {
         code: "IoT",
-        name: "IoT production environment",
+        name: "IoT Internal Team",
         bullets: [
           "Deployed the platform on the IoT production server with system and application monitoring, and archived ~1.4 TB of production data into 18 GB.",
         ],

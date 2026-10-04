@@ -94,6 +94,14 @@ export const site = {
         "Built a global cybersecurity threat analysis dashboard in Power BI in 90 minutes; won Rs. 25,000.",
     },
     {
+      title: "Winner, Kalyani Group Hackathon",
+      short: "Kalyani Group Hackathon · Winner",
+      prize: "Got Internship @Kalyani Group",
+      icon: "award",
+      detail:
+        "Cracked the All India level test and Interview conducted by Kalyani Group, was in the Top 7 selected Applicants for Internship",
+    },
+    {
       title: "Competitive programming",
       short: "LeetCode 1550+ · GfG 3★ · CodeChef 2★",
       prize: "",

@@ -83,7 +83,9 @@ export function About() {
           <Reveal
             key={a.title}
             delay={0.05 * i}
-            className="glass flex flex-col gap-4 rounded-[var(--radius-card)] p-6 md:col-span-2"
+            className={`glass flex flex-col gap-4 rounded-[var(--radius-card)] p-6 ${
+              site.achievements.length % 3 === 0 ? "md:col-span-2" : "md:col-span-3"
+            }`}
           >
             <div className="flex items-center justify-between">
               <span className="bg-accent/10 text-accent flex size-11 items-center justify-center rounded-full">
