@@ -14,12 +14,7 @@ export function Contact() {
   ];
   return (
     <Section id="contact">
-      <SectionHeading
-        index="08"
-        eyebrow="Contact"
-        title="Let's build something that moves data."
-        intro="Hiring, collaborating, or planning a self-hosted data platform? Send a note."
-      />
+      <SectionHeading index="05" eyebrow="Contact" title="Say hello." />
       <div className="grid gap-8 lg:grid-cols-[1fr_1.4fr]">
         <ul className="space-y-3">
           {links.map((l) => (

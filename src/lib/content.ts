@@ -14,6 +14,8 @@ const projectSchema = z.object({
   metric: z.string().optional(),
   metricLabel: z.string().optional(),
   icon: z.string().optional(),
+  /** "work" case studies are linked from Experience; only "personal" ones appear under Projects. */
+  kind: z.enum(["personal", "work"]).default("personal"),
   /** Hidden projects are left out of the site, sitemap and AI until ready. */
   hidden: z.boolean().default(false),
   date: z.string(),

@@ -2,31 +2,31 @@
 
 Personal portfolio for a Data & AI Engineer, with an AI assistant grounded in the site's own content.
 
-**Stack:** Next.js 15 (App Router) · TypeScript (strict) · Tailwind CSS v4 · Radix/shadcn-style primitives · Framer Motion · React Three Fiber · Google Gemini API (chat, structured output and embeddings) · Zod.
+**Stack:** Next.js 15 (App Router) · TypeScript (strict) · Tailwind CSS v4 · Radix/shadcn-style primitives · Framer Motion · Google Gemini API (chat, structured output and embeddings) · Zod.
 
 ## Features
 
 - **Ask Sujit**: a streaming chat assistant that answers only from portfolio content, cites the section it used, declines off-topic questions and says "I don't know" instead of guessing.
 - **Job-fit analyzer**: paste a job description to get a match score, matching skills, gaps and the most relevant projects, returned as validated JSON.
 - **Semantic search**: Gemini embeddings are built at build time into `src/data/embeddings.json` and searched by cosine similarity. It falls back to BM25 keyword search automatically when there is no key or index.
-- **Intent greeting**: the hero line adapts to the visitor's stated reason for visiting, picked from fixed options with no free text.
-- Command palette (Ctrl/Cmd + K), architecture playground, skill map, MDX case studies and notes, contact form with honeypot, timing check and optional Turnstile.
+- **Animated tiger**: a geometric SVG tiger in the hero that draws itself in, blinks, follows the cursor, and opens the AI chat when clicked.
+- Minimal sections: Hero, About, Experience, Ask AI, Projects, Contact. Plus a command palette (Ctrl/Cmd + K), MDX case studies, and a contact form with honeypot, timing check and optional Turnstile.
 - SEO: metadata API, dynamic OG images, `sitemap.xml`, `robots.txt`, JSON-LD Person schema. Plausible analytics behind a flag.
 
 ## Editing content
 
 Everything you edit lives in `content/`. You shouldn't need to touch components.
 
-| File                      | What it controls                                                                 |
-| ------------------------- | -------------------------------------------------------------------------------- |
-| `content/site.ts`         | Name, role, positioning, about, education, achievements, links                   |
-| `content/experience.ts`   | Timeline and the BFAL / Saarloha / KSSL / BFL entity cards                       |
-| `content/skills.ts`       | Skill groups, depth (1–3) and which skills are used together                     |
-| `content/architecture.ts` | Architecture playground nodes                                                    |
-| `content/projects/*.mdx`  | One case study per file (frontmatter + Problem / Architecture / Stack / Outcome) |
-| `content/blog/*.mdx`      | Notes                                                                            |
+| File                      | What it controls                                                                             |
+| ------------------------- | -------------------------------------------------------------------------------------------- |
+| `content/site.ts`         | Name, role, positioning, about, education, achievements, links                               |
+| `content/experience.ts`   | Timeline and the BFAL / Saarloha / KSSL / BFL entity cards                                   |
+| `content/skills.ts`       | Full skill list (used by the AI assistant); the About logos come from `toolkit` in `site.ts` |
+| `content/architecture.ts` | Platform architecture details (used by the AI assistant, not shown on the page)              |
+| `content/projects/*.mdx`  | One case study per file (frontmatter + Problem / Architecture / Stack / Outcome)             |
+| `content/blog/*.mdx`      | Notes (drafts are hidden; set `draft: false` to publish)                                     |
 
-Projects support a few display fields in their frontmatter: `tagline` (the one line shown on the card), `metric` and `metricLabel` (the big number on the card cover), `icon` (one of `server`, `archive`, `boxes`, `key`, `settings`, `lock`, `map`, `scan`, `layers`, `workflow`, `trophy`, `code`), and `hidden: true` to keep an unfinished project off the site. The full write-up only appears on the project's own page.
+Projects support a few display fields in their frontmatter: `tagline` (the one line shown on the card), `metric` and `metricLabel` (the big number on the card cover), `icon` (one of `server`, `archive`, `boxes`, `key`, `settings`, `lock`, `map`, `scan`, `layers`, `workflow`, `trophy`, `code`), and `hidden: true` to keep an unfinished project off the site, and `kind`: `"personal"` projects appear under Projects, `"work"` case studies are linked from a role in `content/experience.ts` via `caseStudies`. The full write-up only appears on the project's own page.
 
 To **add a project**, copy any file in `content/projects/`, rename it (the filename becomes the URL slug), edit the frontmatter and body, and rebuild. The chat, search and job-fit analyzer pick it up automatically after `npm run build`. In `next dev` they read the content live with keyword search.
 

@@ -52,8 +52,6 @@ export function jobFitUserTurn(jd: string, chunks: Chunk[], projectSlugs: string
   return `<portfolio_context>\n${formatContext(chunks)}\n</portfolio_context>\n\nValid project slugs: ${projectSlugs.join(", ")}\n\n<job_description>\n${jd}\n</job_description>`;
 }
 
-export const GREETING_SYSTEM = `You write a single welcoming line (max 22 words) for the hero section of ${site.name}'s portfolio, tailored to the visitor's stated intent. Use only these facts: ${site.name} is a ${site.role} at ${site.company} who builds self-hosted data platforms (Apache NiFi, Apache Superset, PostgreSQL, Docker) and LLM agents. No emojis, no quotes, no metrics, no pronouns for Sujit. Output only the line.`;
-
 function escapeAttr(s: string) {
   return s.replace(/"/g, "'");
 }

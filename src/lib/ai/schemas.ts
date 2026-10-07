@@ -21,9 +21,6 @@ export const searchRequestSchema = z.object({
   q: z.string().min(2).max(200),
 });
 
-export const intents = ["hiring", "collaboration", "consulting", "browsing"] as const;
-export const greetingRequestSchema = z.object({ intent: z.enum(intents) });
-
 /** Shape the model must return for the job-fit analyzer (validated again after parsing). */
 export const jobFitResultSchema = z.object({
   score: z.number().describe("Integer 0-100"),

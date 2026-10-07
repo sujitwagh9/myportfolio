@@ -1,105 +1,95 @@
+import Link from "next/link";
+import { ArrowUpRight } from "lucide-react";
 import { experience } from "@content/experience";
-import { CountUp } from "@/components/motion/count-up";
 import { Reveal } from "@/components/motion/reveal";
 import { Badge } from "@/components/ui/badge";
 import { Expandable } from "@/components/ui/expandable";
+import { ContentIcon } from "@/components/ui/icon";
 import { TechRow } from "@/components/ui/tech-icon";
+import { getProjects } from "@/lib/content";
 import { cn } from "@/lib/utils";
-import { DeploymentHub } from "./deployment-hub";
 import { Section, SectionHeading } from "./section-heading";
 
 export function Experience() {
+  const bySlug = new Map(getProjects().map((p) => [p.slug, p]));
   return (
     <Section id="experience">
-      <SectionHeading
-        index="02"
-        eyebrow="Experience"
-        title="Intern to owner."
-        intro="I built the Kalyani Group's Data Platform as an intern, and now run it full time."
-      />
-      <ol className="border-border relative space-y-10 border-l pl-6 md:pl-8">
-        {experience.map((job) => (
-          <li key={`${job.role}-${job.period}`} className="relative">
-            <span
-              className={cn(
-                "ring-bg absolute top-7 -left-[31px] size-3 rounded-full ring-4 md:-left-[39px]",
-                job.current ? "bg-signal" : "bg-accent",
-              )}
-              aria-hidden
-            />
-            <Reveal className="glass rounded-[var(--radius-card)] p-6 md:p-8">
-              <div className="flex flex-wrap items-start justify-between gap-3">
-                <div>
-                  <h3 className="flex flex-wrap items-center gap-2 text-2xl font-semibold">
+      <SectionHeading index="02" eyebrow="Experience" title="Where I work." />
+      <ol className="space-y-6">
+        {experience.map((job) => {
+          const work = (job.caseStudies ?? []).map((s) => bySlug.get(s)).filter((p) => !!p);
+          return (
+            <li key={`${job.role}-${job.period}`}>
+              <Reveal className="glass rounded-[var(--radius-card)] p-6 md:p-8">
+                <div className="flex flex-wrap items-baseline justify-between gap-2">
+                  <h3 className="flex flex-wrap items-center gap-2 text-xl font-semibold md:text-2xl">
                     {job.role}
-                    {job.current ? <Badge tone="signal">current</Badge> : null}
+                    <span className="text-muted font-normal">· {job.company}</span>
+                    {job.current ? <Badge tone="signal">now</Badge> : null}
                   </h3>
-                  <p className="text-muted mt-1">
-                    {job.company}
-                    {job.team ? <span className="text-accent-2"> · {job.team}</span> : null}
-                  </p>
+                  <span className="text-muted font-mono text-xs">{job.period}</span>
                 </div>
-                <span
-                  className={cn(
-                    "text-muted font-mono text-xs",
-                    job.period.includes("[PLACEHOLDER") && "italic",
-                  )}
-                >
-                  {job.period}
-                </span>
-              </div>
 
-              <dl className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
-                {job.highlights.map((h) => (
-                  <div
-                    key={h.label}
-                    className="bg-surface-2 flex flex-col-reverse rounded-[var(--radius-input)] p-4"
-                  >
-                    <dt className="text-muted mt-1 font-mono text-[10px] tracking-wide uppercase">
-                      {h.label}
-                    </dt>
-                    <dd
-                      className={`font-display text-accent leading-tight font-semibold ${h.value.length > 6 ? "text-xl" : "text-2xl"}`}
-                    >
-                      <CountUp value={h.value} />
-                    </dd>
-                  </div>
-                ))}
-              </dl>
-
-              <div className="mt-5">
-                <TechRow names={job.stack} max={12} />
-              </div>
-
-              {job.entities?.length ? (
-                <div className="mt-6">
-                  <DeploymentHub entities={job.entities} />
-                </div>
-              ) : null}
-
-              <Expandable label="Show details" openLabel="Hide details" className="mt-6">
-                <p className="text-muted mb-3">{job.summary}</p>
-                <ul className="space-y-2.5">
-                  {job.bullets.map((b) => (
-                    <li
-                      key={b}
-                      className={cn(
-                        "flex gap-3 text-sm text-pretty",
-                        b.includes("[PLACEHOLDER") && "text-muted italic",
-                      )}
-                    >
-                      <span
-                        className="bg-accent-2 mt-2 size-1.5 shrink-0 rounded-full"
-                        aria-hidden
-                      />
-                      {b}
-                    </li>
+                <dl className="mt-5 flex flex-wrap gap-x-10 gap-y-4">
+                  {job.highlights.slice(0, 3).map((h) => (
+                    <div key={h.label} className="flex flex-col-reverse">
+                      <dt className="text-muted font-mono text-[10px] tracking-wide uppercase">
+                        {h.label}
+                      </dt>
+                      <dd className="font-display text-accent text-2xl font-semibold">{h.value}</dd>
+                    </div>
                   ))}
-                </ul>
-              </Expandable>
-            </Reveal>
-          </li>
-        ))}
+                </dl>
+
+                {work.length ? (
+                  <div className="mt-6">
+                    <p className="text-muted mb-2 font-mono text-[10px] tracking-wide uppercase">
+                      Key work
+                    </p>
+                    <ul className="flex flex-wrap gap-2">
+                      {work.map((p) => (
+                        <li key={p.slug}>
+                          <Link
+                            href={`/projects/${p.slug}`}
+                            className="border-border hover:border-accent group inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-sm transition-colors"
+                          >
+                            <ContentIcon name={p.icon} className="text-accent size-3.5" />
+                            {p.title.replace(/:.*$/, "")}
+                            <ArrowUpRight className="text-muted group-hover:text-accent size-3.5" />
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ) : null}
+
+                <div className="mt-6 flex flex-wrap items-center justify-between gap-4">
+                  <TechRow names={job.stack} max={8} size="sm" />
+                  <Expandable label="Show details" openLabel="Hide details" className="w-full">
+                    <p className="text-muted mb-3 text-sm">{job.summary}</p>
+                    <ul className="space-y-2">
+                      {job.bullets.map((b) => (
+                        <li
+                          key={b}
+                          className={cn(
+                            "flex gap-3 text-sm text-pretty",
+                            b.includes("[PLACEHOLDER") && "text-muted italic",
+                          )}
+                        >
+                          <span
+                            className="bg-accent-2 mt-2 size-1.5 shrink-0 rounded-full"
+                            aria-hidden
+                          />
+                          {b}
+                        </li>
+                      ))}
+                    </ul>
+                  </Expandable>
+                </div>
+              </Reveal>
+            </li>
+          );
+        })}
       </ol>
     </Section>
   );

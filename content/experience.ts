@@ -16,10 +16,13 @@ export type Experience = {
   current?: boolean;
   location: string;
   summary: string;
-  /** Impact numbers shown on the card; bullets are only shown on "Show details". */
+  /** Up to three impact numbers shown on the card; bullets only appear on "Show details". */
   highlights: { value: string; label: string }[];
+  /** Slugs of work case studies (content/projects, kind: "work") linked from this role. */
+  caseStudies?: string[];
   bullets: string[];
   stack: string[];
+  /** Not shown on the page; the AI assistant uses it. */
   entities?: ExperienceEntity[];
 };
 
@@ -68,7 +71,14 @@ export const experience: Experience[] = [
       { value: "0 → 1", label: "platform built" },
       { value: "5", label: "production deployments" },
       { value: "1.4 TB → 18 GB", label: "IoT data archived" },
-      { value: "7", label: "open-source tools" },
+    ],
+    caseStudies: [
+      "on-prem-data-platform",
+      "iot-data-archival",
+      "pgagent-docker-image",
+      "azure-ad-sso",
+      "config-manager",
+      "compose-encryption",
     ],
     summary:
       "Took end-to-end ownership of building the group's on-premise Data Platform, from research and development to live production deployments.",

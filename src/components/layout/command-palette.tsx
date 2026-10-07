@@ -174,13 +174,6 @@ export function CommandPalette({ projects }: { projects: Item[] }) {
               >
                 {resolvedTheme === "dark" ? <Sun /> : <Moon />} Toggle theme
               </Command.Item>
-              <Command.Item
-                value="action blog notes"
-                onSelect={() => go("/blog")}
-                className={itemClass}
-              >
-                <FileText /> All notes
-              </Command.Item>
             </Command.Group>
           </Command.List>
         </Command>
