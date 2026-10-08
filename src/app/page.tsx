@@ -19,20 +19,20 @@ export default function HomePage() {
       <Hero />
       <About />
       <Experience />
+      <Profiles />
 
       <Section id="ai" watermark="Ask AI">
-        <SectionHeading index="03" eyebrow="AI" title="Ask my AI." />
+        <SectionHeading index="04" eyebrow="AI" title="Ask my AI." />
         <AISection />
       </Section>
 
       {personal.length ? (
         <Section id="projects" watermark="Projects">
-          <SectionHeading index="04" eyebrow="Projects" title="Side projects." />
+          <SectionHeading index="05" eyebrow="Projects" title="Side projects." />
           <ProjectGrid projects={personal} />
         </Section>
       ) : null}
 
-      <Profiles />
       <Contact />
     </>
   );

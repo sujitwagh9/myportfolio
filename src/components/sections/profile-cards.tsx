@@ -55,10 +55,8 @@ function Enter({
     <motion.div
       className={className}
       style={{ transformPerspective: 1000 }}
-      initial={
-        reduce ? { opacity: 0 } : { opacity: 0, rotateY: i % 2 ? -25 : 25, y: 60, scale: 0.9 }
-      }
-      whileInView={{ opacity: 1, rotateY: 0, y: 0, scale: 1 }}
+      initial={reduce ? { opacity: 0 } : { opacity: 0, rotateX: 18, y: 50, scale: 0.94 }}
+      whileInView={{ opacity: 1, rotateX: 0, y: 0, scale: 1 }}
       viewport={{ once: true, margin: "-60px" }}
       transition={{ ...SPRING, delay: i * 0.1 }}
     >
@@ -83,10 +81,10 @@ export function ProfileCards({
   codechef: { username: string; badge: string };
 }) {
   return (
-    <div className="grid gap-4 md:grid-cols-4 md:grid-rows-[auto_auto]">
+    <div className="grid grid-cols-2 gap-3 md:grid-cols-4 md:grid-rows-[auto_auto] md:gap-4">
       {/* GitHub */}
-      <Enter i={0} className="md:col-span-2 md:row-span-2">
-        <TiltCard max={4} className="glass rounded-[var(--radius-card)] p-6">
+      <Enter i={0} className="col-span-2 min-w-0 md:row-span-2">
+        <TiltCard max={4} className="glass rounded-[var(--radius-card)] p-4 sm:p-6">
           <div className="flex items-center gap-4">
             {github ? (
               // eslint-disable-next-line @next/next/no-img-element
@@ -96,14 +94,14 @@ export function ProfileCards({
                 width={56}
                 height={56}
                 loading="lazy"
-                className="ring-accent/40 size-14 rounded-full ring-2"
+                className="ring-accent/40 size-12 shrink-0 rounded-full ring-2 sm:size-14"
               />
             ) : (
               <span className="bg-surface-2 flex size-14 items-center justify-center rounded-full">
                 <Brand icon={siGithub} color="currentColor" />
               </span>
             )}
-            <div className="flex-1">
+            <div className="min-w-0 flex-1">
               <p className="flex items-center gap-2 font-semibold">
                 <Brand icon={siGithub} color="currentColor" className="size-4" /> GitHub
               </p>
@@ -113,7 +111,7 @@ export function ProfileCards({
               href={`https://github.com/${githubUser}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="border-border hover:border-accent hover:text-accent inline-flex items-center gap-1 rounded-full border px-3 py-1.5 text-xs transition-colors"
+              className="border-border hover:border-accent hover:text-accent inline-flex shrink-0 items-center gap-1 rounded-full border px-3 py-1.5 text-xs transition-colors"
             >
               Visit <ArrowUpRight className="size-3.5" />
             </a>
@@ -129,12 +127,12 @@ export function ProfileCards({
                 ].map((s) => (
                   <div
                     key={s.label}
-                    className="bg-surface-2 flex flex-col-reverse rounded-[var(--radius-input)] p-3"
+                    className="bg-surface-2 flex min-w-0 flex-col-reverse rounded-[var(--radius-input)] p-2.5 sm:p-3"
                   >
                     <dt className="text-muted flex items-center gap-1 font-mono text-[10px] uppercase">
                       <s.icon className="size-3" /> {s.label}
                     </dt>
-                    <dd className="font-display text-2xl font-semibold">
+                    <dd className="font-display text-xl font-semibold sm:text-2xl">
                       <CountUp value={String(s.value)} />
                     </dd>
                   </div>
@@ -158,11 +156,13 @@ export function ProfileCards({
                       rel="noopener noreferrer"
                       className="border-border hover:border-accent group block rounded-[var(--radius-input)] border p-3 transition-colors"
                     >
-                      <span className="flex items-center justify-between gap-3">
-                        <span className="truncate text-sm font-medium capitalize">{r.name}</span>
+                      <span className="flex min-w-0 items-center justify-between gap-3">
+                        <span className="min-w-0 truncate text-sm font-medium capitalize">
+                          {r.name}
+                        </span>
                         <span className="text-muted flex shrink-0 items-center gap-3 font-mono text-[11px]">
                           {r.language ? (
-                            <span className="flex items-center gap-1">
+                            <span className="hidden items-center gap-1 sm:flex">
                               <span
                                 className="size-2 rounded-full"
                                 style={{ background: LANG[r.language] ?? "var(--accent-2)" }}
@@ -192,8 +192,8 @@ export function ProfileCards({
       </Enter>
 
       {/* LeetCode */}
-      <Enter i={1} className="md:col-span-2">
-        <TiltCard max={5} className="glass rounded-[var(--radius-card)] p-6">
+      <Enter i={1} className="col-span-2 min-w-0">
+        <TiltCard max={5} className="glass rounded-[var(--radius-card)] p-4 sm:p-6">
           <a
             href={`https://leetcode.com/u/${leetcodeUser}/`}
             target="_blank"
@@ -206,12 +206,15 @@ export function ProfileCards({
             <p className="flex-1 font-semibold">LeetCode</p>
             <ArrowUpRight className="text-muted size-4" />
           </div>
-          <div className="mt-4 flex flex-wrap items-center gap-6">
+          <div className="mt-4 flex items-center gap-4 sm:gap-6">
             <SolvedRing stats={leetcode} />
-            <div className="min-w-40 flex-1 space-y-3">
+            <div className="min-w-0 flex-1 space-y-3">
               {leetcode.rating ? (
                 <div>
-                  <p className="font-display text-3xl font-semibold" style={{ color: "#FFA116" }}>
+                  <p
+                    className="font-display text-2xl font-semibold sm:text-3xl"
+                    style={{ color: "#FFA116" }}
+                  >
                     <CountUp value={String(leetcode.rating)} />
                   </p>
                   <p className="text-muted font-mono text-[10px] uppercase">
@@ -272,13 +275,13 @@ export function ProfileCards({
           href: `https://www.codechef.com/users/${codechef.username}`,
         },
       ].map((p, i) => (
-        <Enter key={p.name} i={i + 2}>
+        <Enter key={p.name} i={i + 2} className="min-w-0">
           <TiltCard max={10} className="rounded-[var(--radius-card)]">
             <a
               href={p.href}
               target="_blank"
               rel="noopener noreferrer"
-              className="glass group relative flex h-full flex-col justify-between gap-6 overflow-hidden rounded-[var(--radius-card)] p-6"
+              className="glass group relative flex h-full flex-col justify-between gap-4 overflow-hidden rounded-[var(--radius-card)] p-4 sm:gap-6 sm:p-6"
             >
               <span
                 aria-hidden
@@ -294,9 +297,9 @@ export function ProfileCards({
                 <ArrowUpRight className="text-muted group-hover:text-accent size-4 transition-colors" />
               </div>
               <div>
-                <p className="font-display text-3xl font-semibold">{p.badge}</p>
+                <p className="font-display text-xl font-semibold sm:text-3xl">{p.badge}</p>
                 <p className="text-muted mt-1 text-sm">{p.name}</p>
-                <p className="text-muted font-mono text-[10px]">@{p.username}</p>
+                <p className="text-muted truncate font-mono text-[10px]">@{p.username}</p>
               </div>
             </a>
           </TiltCard>
@@ -322,7 +325,7 @@ function SolvedRing({ stats }: { stats: LeetcodeStats }) {
   const gap = stats.live ? 4 : 0;
   let offset = 0;
   return (
-    <div className="relative size-32 shrink-0">
+    <div className="relative size-24 shrink-0 sm:size-32">
       <svg viewBox="0 0 110 110" className="size-full -rotate-90" aria-hidden>
         <circle cx="55" cy="55" r={r} fill="none" stroke="var(--border)" strokeWidth="8" />
         {parts.map((p, i) => {
@@ -349,7 +352,7 @@ function SolvedRing({ stats }: { stats: LeetcodeStats }) {
         })}
       </svg>
       <div className="absolute inset-0 flex flex-col items-center justify-center">
-        <span className="font-display text-3xl font-semibold">
+        <span className="font-display text-2xl font-semibold sm:text-3xl">
           <CountUp value={String(stats.solved)} />
         </span>
         <span className="text-muted font-mono text-[10px] uppercase">solved</span>

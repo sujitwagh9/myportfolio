@@ -202,3 +202,9 @@ html.lenis body {
   -webkit-mask-composite: xor;
   mask-composite: exclude;
 }
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}

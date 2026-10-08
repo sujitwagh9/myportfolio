@@ -151,7 +151,7 @@ export function ExperienceTimeline({
           id={`${uid}-panel`}
           role="tabpanel"
           aria-labelledby={`${uid}-tab-${active}`}
-          className="relative p-5 md:min-h-[460px] md:p-8"
+          className="relative p-5 md:p-8"
         >
           <AnimatePresence mode="wait" initial={false}>
             <motion.div
@@ -183,86 +183,93 @@ export function ExperienceTimeline({
                 ))}
               </dl>
 
-              {role.work.length ? (
-                <div className="mt-8">
-                  <p className="text-muted mb-2 font-mono text-[10px] tracking-wide uppercase">
-                    Key work
-                  </p>
-                  <ul className="divide-border border-border divide-y border-y">
-                    {role.work.map((w, i) => (
-                      <motion.li
-                        key={w.slug}
-                        initial={reduce ? false : { opacity: 0, x: 16 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ ...SPRING, delay: 0.08 + i * 0.05 }}
-                      >
-                        <Link
-                          href={`/projects/${w.slug}`}
-                          className="group relative flex items-center gap-4 py-3 pr-2 transition-[padding] duration-300 hover:pl-3"
+              {/* Everything beyond the headline is opt-in. */}
+              <Expandable label="Read more" openLabel="Show less" className="mt-6">
+                {role.work.length ? (
+                  <div>
+                    <p className="text-muted mb-2 font-mono text-[10px] tracking-wide uppercase">
+                      Key work
+                    </p>
+                    <ul className="divide-border border-border divide-y border-y">
+                      {role.work.map((w, i) => (
+                        <motion.li
+                          key={w.slug}
+                          initial={reduce ? false : { opacity: 0, x: 16 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ ...SPRING, delay: 0.08 + i * 0.05 }}
                         >
-                          <span
-                            aria-hidden
-                            className="bg-accent absolute top-1/2 left-0 h-0 w-0.5 -translate-y-1/2 rounded-full transition-all duration-300 group-hover:h-2/3"
-                          />
-                          <span className="bg-accent/10 text-accent flex size-8 shrink-0 items-center justify-center rounded-lg">
-                            <ContentIcon name={w.icon} className="size-4" />
-                          </span>
-                          <span className="min-w-0 flex-1 text-sm font-medium">{w.title}</span>
-                          {w.metric && !/^\d+$/.test(w.metric) ? (
-                            <span className="text-muted hidden shrink-0 font-mono text-xs sm:block">
-                              {w.metric}
+                          <Link
+                            href={`/projects/${w.slug}`}
+                            className="group relative flex items-center gap-4 py-3 pr-2 transition-[padding] duration-300 hover:pl-3"
+                          >
+                            <span
+                              aria-hidden
+                              className="bg-accent absolute top-1/2 left-0 h-0 w-0.5 -translate-y-1/2 rounded-full transition-all duration-300 group-hover:h-2/3"
+                            />
+                            <span className="bg-accent/10 text-accent flex size-8 shrink-0 items-center justify-center rounded-lg">
+                              <ContentIcon name={w.icon} className="size-4" />
                             </span>
-                          ) : null}
-                          <ArrowUpRight className="text-muted group-hover:text-accent size-4 shrink-0 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                        </Link>
-                      </motion.li>
-                    ))}
-                  </ul>
-                </div>
-              ) : (
-                // No case studies yet: show what the role involves, in the same list style.
-                <div className="mt-8">
-                  <p className="text-muted mb-2 font-mono text-[10px] tracking-wide uppercase">
-                    {role.current ? "What I do now" : "What I did"}
-                  </p>
-                  <ul className="divide-border border-border divide-y border-y">
-                    {role.bullets.map((b, i) => (
-                      <motion.li
-                        key={b}
-                        initial={reduce ? false : { opacity: 0, x: 16 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ ...SPRING, delay: 0.08 + i * 0.05 }}
-                        className="flex items-start gap-4 py-3 text-sm"
-                      >
-                        <span className="text-accent mt-0.5 font-mono text-xs">
-                          {String(i + 1).padStart(2, "0")}
-                        </span>
-                        <span className="text-pretty">{b}</span>
-                      </motion.li>
-                    ))}
-                  </ul>
-                </div>
-              )}
+                            <span className="min-w-0 flex-1 text-sm font-medium">{w.title}</span>
+                            {w.metric && !/^\d+$/.test(w.metric) ? (
+                              <span className="text-muted hidden shrink-0 font-mono text-xs sm:block">
+                                {w.metric}
+                              </span>
+                            ) : null}
+                            <ArrowUpRight className="text-muted group-hover:text-accent size-4 shrink-0 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                          </Link>
+                        </motion.li>
+                      ))}
+                    </ul>
+                  </div>
+                ) : (
+                  // No case studies yet: show what the role involves, in the same list style.
+                  <div>
+                    <p className="text-muted mb-2 font-mono text-[10px] tracking-wide uppercase">
+                      {role.current ? "What I do now" : "What I did"}
+                    </p>
+                    <ul className="divide-border border-border divide-y border-y">
+                      {role.bullets.map((b, i) => (
+                        <motion.li
+                          key={b}
+                          initial={reduce ? false : { opacity: 0, x: 16 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ ...SPRING, delay: 0.08 + i * 0.05 }}
+                          className="flex items-start gap-4 py-3 text-sm"
+                        >
+                          <span className="text-accent mt-0.5 font-mono text-xs">
+                            {String(i + 1).padStart(2, "0")}
+                          </span>
+                          <span className="text-pretty">{b}</span>
+                        </motion.li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
 
-              <div className="mt-6 flex flex-wrap items-center justify-between gap-3">
-                <TechRow names={role.stack} max={9} size="sm" />
-              </div>
-              {role.work.length ? (
-                <Expandable label="Show details" openLabel="Hide details" className="mt-4">
-                  <p className="text-muted mb-3 text-sm">{role.summary}</p>
-                  <ul className="space-y-2">
-                    {role.bullets.map((b) => (
-                      <li key={b} className="flex gap-3 text-sm text-pretty">
-                        <span
-                          className="bg-accent-2 mt-2 size-1.5 shrink-0 rounded-full"
-                          aria-hidden
-                        />
-                        {b}
-                      </li>
-                    ))}
-                  </ul>
-                </Expandable>
-              ) : null}
+                <div className="mt-6 flex flex-wrap items-center justify-between gap-3">
+                  <TechRow names={role.stack} max={9} size="sm" />
+                </div>
+
+                {role.work.length ? (
+                  <div className="mt-6">
+                    <p className="text-muted mb-2 font-mono text-[10px] tracking-wide uppercase">
+                      Full details
+                    </p>
+                    <p className="text-muted mb-3 text-sm">{role.summary}</p>
+                    <ul className="space-y-2">
+                      {role.bullets.map((b) => (
+                        <li key={b} className="flex gap-3 text-sm text-pretty">
+                          <span
+                            className="bg-accent-2 mt-2 size-1.5 shrink-0 rounded-full"
+                            aria-hidden
+                          />
+                          {b}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ) : null}
+              </Expandable>
             </motion.div>
           </AnimatePresence>
         </div>
