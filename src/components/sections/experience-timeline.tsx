@@ -1,14 +1,12 @@
 "use client";
 
-import { useRef } from "react";
+import { useId, useState } from "react";
 import Link from "next/link";
-import { motion, useReducedMotion, useScroll, useSpring } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { ArrowUpRight, MapPin } from "lucide-react";
 import type { Experience } from "@content/experience";
-import { EASE, Reveal, Stagger, StaggerItem } from "@/components/motion/reveal";
-import { TiltCard } from "@/components/interactive/tilt-card";
 import { CountUp } from "@/components/motion/count-up";
-import { Badge } from "@/components/ui/badge";
+import { Reveal, SPRING } from "@/components/motion/reveal";
 import { Expandable } from "@/components/ui/expandable";
 import { ContentIcon } from "@/components/ui/icon";
 import { TechRow } from "@/components/ui/tech-icon";
@@ -19,8 +17,8 @@ export type RoleView = Experience & {
 };
 
 /**
- * One company, its roles newest first, joined by a line that fills as you scroll.
- * Each role shows a single line and its numbers; everything else is one click away.
+ * One company: roles on the left as a clickable timeline, the selected role on the right.
+ * Only one role's details are on screen at a time, so it reads at a glance.
  */
 export function ExperienceTimeline({
   company,
@@ -31,180 +29,244 @@ export function ExperienceTimeline({
   location: string;
   roles: RoleView[];
 }) {
-  const ref = useRef<HTMLDivElement>(null);
+  const [active, setActive] = useState(0);
   const reduce = useReducedMotion();
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start 75%", "end 60%"] });
-  const fill = useSpring(scrollYProgress, { stiffness: 90, damping: 25 });
-
+  const uid = useId();
+  const role = roles[active]!;
   const start = roles.at(-1)?.period.split("–")[0]?.trim();
-  const end = roles[0]?.period.split("–")[1]?.trim();
   const initials = company
     .split(/\s+/)
     .map((w) => w[0])
     .join("")
     .slice(0, 2);
-  const promoted = roles.length > 1;
+
+  function onKey(e: React.KeyboardEvent) {
+    const dir =
+      e.key === "ArrowDown" || e.key === "ArrowRight"
+        ? 1
+        : e.key === "ArrowUp" || e.key === "ArrowLeft"
+          ? -1
+          : 0;
+    if (!dir) return;
+    e.preventDefault();
+    const next = (active + dir + roles.length) % roles.length;
+    setActive(next);
+    document.getElementById(`${uid}-tab-${next}`)?.focus();
+  }
 
   return (
-    <div ref={ref}>
-      {/* Company header */}
-      <Reveal from="left" className="mb-6 flex flex-wrap items-center gap-4">
-        <span className="from-accent to-accent-2 text-accent-fg font-display flex size-14 items-center justify-center rounded-2xl bg-gradient-to-br text-xl font-bold shadow-[0_10px_30px_-10px_var(--accent)]">
-          {initials}
-        </span>
-        <div className="flex-1">
-          <h3 className="text-2xl font-semibold">{company}</h3>
-          <p className="text-muted flex flex-wrap items-center gap-x-3 text-sm">
-            <span className="inline-flex items-center gap-1">
-              <MapPin className="size-3.5" /> {location}
+    <Reveal from="up" className="glass overflow-hidden rounded-[var(--radius-card)]">
+      <div className="grid md:grid-cols-[280px_1fr]">
+        {/* ── Left: company + role timeline ───────────────────────────── */}
+        <div className="border-border bg-surface-2/40 border-b p-5 md:border-r md:border-b-0 md:p-6">
+          <div className="flex items-center gap-3">
+            <span className="from-accent to-accent-2 text-accent-fg font-display flex size-11 items-center justify-center rounded-xl bg-gradient-to-br text-base font-bold">
+              {initials}
             </span>
-            {start && end ? (
-              <span className="font-mono text-xs">
-                {start} – {end}
-              </span>
-            ) : null}
-          </p>
-        </div>
-        {promoted ? (
-          <Badge tone="signal" className="px-3 py-1 text-xs">
-            Intern → Full-time
-          </Badge>
-        ) : null}
-      </Reveal>
+            <div>
+              <h3 className="leading-tight font-semibold">{company}</h3>
+              <p className="text-muted flex items-center gap-1 text-xs">
+                <MapPin className="size-3" /> {location}
+              </p>
+              {start ? <p className="text-muted font-mono text-[10px]">since {start}</p> : null}
+            </div>
+          </div>
 
-      <div className="relative pl-8 md:pl-12">
-        {/* Track and scroll-linked fill */}
-        <div
-          aria-hidden
-          className="bg-border absolute top-2 bottom-2 left-[11px] w-0.5 md:left-[19px]"
-        />
-        <motion.div
-          aria-hidden
-          style={{ scaleY: reduce ? 1 : fill }}
-          className="from-accent to-accent-2 absolute top-2 bottom-2 left-[11px] w-0.5 origin-top bg-gradient-to-b shadow-[0_0_12px_var(--accent)] md:left-[19px]"
-        />
-
-        <ol className="space-y-5">
-          {roles.map((r) => (
-            <li key={`${r.role}-${r.period}`} className="relative">
-              {/* Node lights up as the role scrolls into view */}
-              <motion.span
-                aria-hidden
-                className={cn(
-                  "ring-bg absolute top-7 -left-[29px] size-3.5 rounded-full ring-4 md:-left-[35px]",
-                  r.current ? "bg-signal" : "bg-accent",
-                )}
-                initial={{ scale: reduce ? 1 : 0 }}
-                whileInView={{ scale: 1 }}
-                viewport={{ once: true, margin: "-80px" }}
-                transition={{ type: "spring", stiffness: 300, damping: 18 }}
-              />
-              {r.current && !reduce ? (
-                <span
-                  aria-hidden
-                  className="bg-signal/40 absolute top-7 -left-[29px] size-3.5 animate-ping rounded-full md:-left-[35px]"
-                />
-              ) : null}
-
-              <Reveal from="right">
-                <TiltCard max={2} className="glass rounded-[var(--radius-card)] p-6 md:p-7">
-                  <div className="flex flex-wrap items-start justify-between gap-3">
-                    <div>
-                      <h4 className="flex flex-wrap items-center gap-2 text-xl font-semibold">
-                        {r.role}
-                        {r.current ? <Badge tone="signal">now</Badge> : null}
-                      </h4>
-                      {r.team ? (
-                        <p className="text-accent-2 mt-0.5 font-mono text-xs">{r.team}</p>
-                      ) : null}
-                    </div>
-                    <span className="border-border text-muted rounded-full border px-3 py-1 font-mono text-[11px]">
-                      {r.period}
-                    </span>
-                  </div>
-
-                  <p className="mt-3 max-w-2xl text-pretty">{r.tagline}</p>
-
-                  <Stagger className="mt-5 grid grid-cols-2 gap-2 sm:flex sm:flex-wrap sm:gap-3">
-                    {r.highlights.slice(0, 3).map((h) => (
-                      <StaggerItem
-                        key={h.label}
-                        className="bg-surface-2 flex flex-col rounded-[var(--radius-input)] px-4 py-3 sm:min-w-32"
-                      >
-                        <span className="font-display text-accent text-xl leading-tight font-semibold">
-                          <CountUp value={h.value} />
-                        </span>
-                        <span className="text-muted mt-0.5 font-mono text-[10px] tracking-wide uppercase">
-                          {h.label}
-                        </span>
-                      </StaggerItem>
-                    ))}
-                  </Stagger>
-
-                  {r.work.length ? (
-                    <div className="mt-6">
-                      <p className="text-muted mb-3 font-mono text-[10px] tracking-wide uppercase">
-                        Key work
-                      </p>
-                      <Stagger className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
-                        {r.work.map((w, i) => (
-                          <StaggerItem key={w.slug} variant="pop" i={i}>
-                            <TiltCard max={10} className="rounded-[var(--radius-input)]">
-                              <Link
-                                href={`/projects/${w.slug}`}
-                                className="border-border bg-bg/40 hover:border-accent group flex h-full items-center gap-3 rounded-[var(--radius-input)] border p-3 transition-all duration-300 hover:-translate-y-0.5"
-                              >
-                                <span className="bg-accent/10 text-accent flex size-9 shrink-0 items-center justify-center rounded-lg transition-transform duration-300 group-hover:scale-110">
-                                  <ContentIcon name={w.icon} className="size-4" />
-                                </span>
-                                <span className="min-w-0 flex-1">
-                                  <span className="line-clamp-2 block text-sm leading-snug font-medium">
-                                    {w.title}
-                                  </span>
-                                  {w.metric ? (
-                                    <span className="text-muted block truncate font-mono text-[10px]">
-                                      {w.metric} · {w.metricLabel}
-                                    </span>
-                                  ) : null}
-                                </span>
-                                <ArrowUpRight className="text-muted group-hover:text-accent size-4 shrink-0 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                              </Link>
-                            </TiltCard>
-                          </StaggerItem>
-                        ))}
-                      </Stagger>
-                    </div>
+          <div
+            role="tablist"
+            aria-label={`Roles at ${company}`}
+            aria-orientation="vertical"
+            className="relative mt-6 grid grid-cols-2 gap-2 md:grid-cols-1 md:gap-1"
+          >
+            {/* Vertical track (desktop) */}
+            <span
+              aria-hidden
+              className="bg-border absolute top-3 bottom-3 left-[13px] hidden w-px md:block"
+            />
+            {roles.map((r, i) => {
+              const selected = i === active;
+              return (
+                <button
+                  key={`${r.role}-${r.period}`}
+                  id={`${uid}-tab-${i}`}
+                  role="tab"
+                  aria-selected={selected}
+                  aria-controls={`${uid}-panel`}
+                  tabIndex={selected ? 0 : -1}
+                  onClick={() => setActive(i)}
+                  onKeyDown={onKey}
+                  className="group relative rounded-[var(--radius-input)] px-3 py-3 text-left md:pl-9"
+                >
+                  {selected ? (
+                    <motion.span
+                      layoutId={`${uid}-pill`}
+                      transition={
+                        reduce ? { duration: 0 } : { type: "spring", stiffness: 400, damping: 32 }
+                      }
+                      className="bg-surface border-accent/40 absolute inset-0 rounded-[var(--radius-input)] border shadow-sm"
+                    />
                   ) : null}
-
-                  <div className="border-border mt-6 flex flex-wrap items-center justify-between gap-4 border-t pt-4">
-                    <TechRow names={r.stack} max={8} size="sm" />
-                  </div>
-                  <Expandable label="Show details" openLabel="Hide details" className="mt-3">
-                    <motion.div
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{ ease: EASE }}
+                  {/* Timeline dot (desktop) */}
+                  <span
+                    aria-hidden
+                    className={cn(
+                      "absolute top-[18px] left-[9px] hidden size-[9px] rounded-full ring-4 ring-[var(--surface-2)] transition-colors md:block",
+                      selected
+                        ? r.current
+                          ? "bg-signal"
+                          : "bg-accent"
+                        : "bg-border group-hover:bg-muted",
+                    )}
+                  />
+                  <span className="relative block">
+                    <span
+                      className={cn(
+                        "block text-sm font-semibold transition-colors",
+                        !selected && "text-muted group-hover:text-fg",
+                      )}
                     >
-                      <p className="text-muted mb-3 text-sm">{r.summary}</p>
-                      <ul className="space-y-2">
-                        {r.bullets.map((b) => (
-                          <li key={b} className="flex gap-3 text-sm text-pretty">
-                            <span
-                              className="bg-accent-2 mt-2 size-1.5 shrink-0 rounded-full"
-                              aria-hidden
-                            />
-                            {b}
-                          </li>
-                        ))}
-                      </ul>
-                    </motion.div>
-                  </Expandable>
-                </TiltCard>
-              </Reveal>
-            </li>
-          ))}
-        </ol>
+                      {r.role}
+                      {r.current ? (
+                        <span className="text-signal ml-1.5 inline-flex items-center gap-1 align-middle font-mono text-[10px] font-normal">
+                          <span className="bg-signal size-1.5 animate-pulse rounded-full" /> now
+                        </span>
+                      ) : null}
+                    </span>
+                    <span className="text-muted font-mono text-[10px]">{r.period}</span>
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+
+          {roles.length > 1 ? (
+            <p className="text-muted mt-5 hidden font-mono text-[10px] md:block">
+              {roles.at(-1)!.role} → {roles[0]!.role}
+            </p>
+          ) : null}
+        </div>
+
+        {/* ── Right: selected role ────────────────────────────────────── */}
+        <div
+          id={`${uid}-panel`}
+          role="tabpanel"
+          aria-labelledby={`${uid}-tab-${active}`}
+          className="relative p-5 md:min-h-[460px] md:p-8"
+        >
+          <AnimatePresence mode="wait" initial={false}>
+            <motion.div
+              key={active}
+              initial={reduce ? { opacity: 0 } : { opacity: 0, y: 18, filter: "blur(6px)" }}
+              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              exit={reduce ? { opacity: 0 } : { opacity: 0, y: -12, filter: "blur(4px)" }}
+              transition={{ ...SPRING, filter: { duration: 0.3 } }}
+            >
+              <div className="flex flex-wrap items-baseline justify-between gap-2">
+                <h4 className="text-2xl font-semibold md:text-3xl">{role.role}</h4>
+                {role.team ? (
+                  <span className="text-accent-2 font-mono text-xs">{role.team}</span>
+                ) : null}
+              </div>
+              <p className="text-muted mt-2 max-w-xl text-pretty">{role.tagline}</p>
+
+              {/* Numbers, separated by hairlines rather than boxed */}
+              <dl className="divide-border mt-6 flex flex-wrap divide-x">
+                {role.highlights.slice(0, 3).map((h) => (
+                  <div key={h.label} className="flex flex-col-reverse px-5 first:pl-0">
+                    <dt className="text-muted mt-1 font-mono text-[10px] tracking-wide uppercase">
+                      {h.label}
+                    </dt>
+                    <dd className="font-display text-accent text-2xl leading-none font-semibold md:text-3xl">
+                      <CountUp value={h.value} />
+                    </dd>
+                  </div>
+                ))}
+              </dl>
+
+              {role.work.length ? (
+                <div className="mt-8">
+                  <p className="text-muted mb-2 font-mono text-[10px] tracking-wide uppercase">
+                    Key work
+                  </p>
+                  <ul className="divide-border border-border divide-y border-y">
+                    {role.work.map((w, i) => (
+                      <motion.li
+                        key={w.slug}
+                        initial={reduce ? false : { opacity: 0, x: 16 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ ...SPRING, delay: 0.08 + i * 0.05 }}
+                      >
+                        <Link
+                          href={`/projects/${w.slug}`}
+                          className="group relative flex items-center gap-4 py-3 pr-2 transition-[padding] duration-300 hover:pl-3"
+                        >
+                          <span
+                            aria-hidden
+                            className="bg-accent absolute top-1/2 left-0 h-0 w-0.5 -translate-y-1/2 rounded-full transition-all duration-300 group-hover:h-2/3"
+                          />
+                          <span className="bg-accent/10 text-accent flex size-8 shrink-0 items-center justify-center rounded-lg">
+                            <ContentIcon name={w.icon} className="size-4" />
+                          </span>
+                          <span className="min-w-0 flex-1 text-sm font-medium">{w.title}</span>
+                          {w.metric && !/^\d+$/.test(w.metric) ? (
+                            <span className="text-muted hidden shrink-0 font-mono text-xs sm:block">
+                              {w.metric}
+                            </span>
+                          ) : null}
+                          <ArrowUpRight className="text-muted group-hover:text-accent size-4 shrink-0 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                        </Link>
+                      </motion.li>
+                    ))}
+                  </ul>
+                </div>
+              ) : (
+                // No case studies yet: show what the role involves, in the same list style.
+                <div className="mt-8">
+                  <p className="text-muted mb-2 font-mono text-[10px] tracking-wide uppercase">
+                    {role.current ? "What I do now" : "What I did"}
+                  </p>
+                  <ul className="divide-border border-border divide-y border-y">
+                    {role.bullets.map((b, i) => (
+                      <motion.li
+                        key={b}
+                        initial={reduce ? false : { opacity: 0, x: 16 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ ...SPRING, delay: 0.08 + i * 0.05 }}
+                        className="flex items-start gap-4 py-3 text-sm"
+                      >
+                        <span className="text-accent mt-0.5 font-mono text-xs">
+                          {String(i + 1).padStart(2, "0")}
+                        </span>
+                        <span className="text-pretty">{b}</span>
+                      </motion.li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              <div className="mt-6 flex flex-wrap items-center justify-between gap-3">
+                <TechRow names={role.stack} max={9} size="sm" />
+              </div>
+              {role.work.length ? (
+                <Expandable label="Show details" openLabel="Hide details" className="mt-4">
+                  <p className="text-muted mb-3 text-sm">{role.summary}</p>
+                  <ul className="space-y-2">
+                    {role.bullets.map((b) => (
+                      <li key={b} className="flex gap-3 text-sm text-pretty">
+                        <span
+                          className="bg-accent-2 mt-2 size-1.5 shrink-0 rounded-full"
+                          aria-hidden
+                        />
+                        {b}
+                      </li>
+                    ))}
+                  </ul>
+                </Expandable>
+              ) : null}
+            </motion.div>
+          </AnimatePresence>
+        </div>
       </div>
-    </div>
+    </Reveal>
   );
 }

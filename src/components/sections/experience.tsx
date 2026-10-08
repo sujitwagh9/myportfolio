@@ -34,7 +34,7 @@ export function Experience() {
   return (
     <Section id="experience" watermark="Experience">
       <SectionHeading index="02" eyebrow="Experience" title="Where I work." />
-      <div className="space-y-10">
+      <div className="space-y-6">
         {companies.map((c) => (
           <ExperienceTimeline key={c.company} {...c} />
         ))}
