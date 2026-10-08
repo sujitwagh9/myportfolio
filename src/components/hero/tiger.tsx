@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { motion, useReducedMotion, useSpring } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion, useSpring, useTransform } from "framer-motion";
 
 /**
  * Geometric (low-poly) tiger face, drawn as one left half mirrored to the right.
@@ -145,6 +145,20 @@ export function Tiger({ onClick }: { onClick?: () => void }) {
   const gx = useSpring(0, { stiffness: 120, damping: 18 });
   const gy = useSpring(0, { stiffness: 120, damping: 18 });
   const [look, setLook] = useState({ x: 0, y: 0 });
+  const [roaring, setRoaring] = useState(false);
+  // The whole head turns slightly toward the pointer.
+  const turnY = useTransform(gx, (v) => v * 3);
+  const turnX = useTransform(gy, (v) => -v * 3);
+  const tilt = useTransform(gx, (v) => v * 0.8);
+
+  function roar() {
+    if (reduce || roaring) return onClick?.();
+    setRoaring(true);
+    window.setTimeout(() => {
+      setRoaring(false);
+      onClick?.();
+    }, 700);
+  }
 
   // Eyes follow the pointer anywhere on the page.
   useEffect(() => {
@@ -171,7 +185,8 @@ export function Tiger({ onClick }: { onClick?: () => void }) {
     <button
       ref={ref}
       type="button"
-      onClick={onClick}
+      onClick={roar}
+      data-cursor="Chat"
       aria-label="Open the AI assistant"
       className="group relative block w-full cursor-pointer rounded-full focus-visible:outline-offset-8"
     >
@@ -180,55 +195,90 @@ export function Tiger({ onClick }: { onClick?: () => void }) {
         aria-hidden
         className="bg-accent/25 absolute inset-[12%] rounded-full blur-3xl transition-opacity duration-500 group-hover:opacity-100 md:opacity-70"
       />
-      <motion.svg
-        viewBox="40 40 320 320"
-        className="relative w-full drop-shadow-[0_20px_40px_rgba(0,0,0,0.35)]"
-        aria-hidden
-        animate={reduce ? undefined : { scale: [1, 1.015, 1] }}
-        transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-        whileHover={reduce ? undefined : { rotate: [0, -2, 2, 0], transition: { duration: 0.5 } }}
+      {/* Shockwave rings on roar */}
+      <AnimatePresence>
+        {roaring
+          ? [0, 1, 2].map((i) => (
+              <motion.span
+                key={i}
+                aria-hidden
+                className="border-accent pointer-events-none absolute inset-[18%] rounded-full border-2"
+                initial={{ scale: 0.7, opacity: 0.9 }}
+                animate={{ scale: 1.9, opacity: 0 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.9, delay: i * 0.12, ease: "easeOut" }}
+              />
+            ))
+          : null}
+      </AnimatePresence>
+      <motion.div
+        style={{ rotateY: turnY, rotateX: turnX, rotate: tilt, transformPerspective: 800 }}
+        animate={
+          roaring ? { x: [0, -6, 6, -5, 5, -2, 0], scale: [1, 1.08, 1.06, 1] } : { x: 0, scale: 1 }
+        }
+        transition={{ duration: 0.6 }}
       >
-        <Half look={look} reduce={reduce} />
-        <Half mirror look={look} reduce={reduce} />
+        <motion.svg
+          viewBox="40 40 320 320"
+          className="relative w-full drop-shadow-[0_20px_40px_rgba(0,0,0,0.35)]"
+          aria-hidden
+          animate={reduce ? undefined : { scale: [1, 1.015, 1] }}
+          transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+          whileHover={reduce ? undefined : { rotate: [0, -2, 2, 0], transition: { duration: 0.5 } }}
+        >
+          <Half look={look} reduce={reduce} />
+          <Half mirror look={look} reduce={reduce} />
 
-        {/* Centre forehead stripe */}
-        <motion.polygon
-          points="200,78 192,96 200,128 208,96"
-          fill={C.ink}
-          initial={reduce ? false : { opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.9 }}
-        />
+          {/* Centre forehead stripe */}
+          <motion.polygon
+            points="200,78 192,96 200,128 208,96"
+            fill={C.ink}
+            initial={reduce ? false : { opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.9 }}
+          />
 
-        {/* Nose and mouth */}
-        <path d="M182 220 L218 220 L200 244 Z" fill={C.nose} strokeLinejoin="round" />
-        <path
-          d="M190 223 L200 223"
-          stroke="#fff"
-          strokeOpacity={0.5}
-          strokeWidth={2}
-          strokeLinecap="round"
-        />
-        <path
-          d="M200 244 L200 262 M200 262 Q186 276 170 268 M200 262 Q214 276 230 268"
-          fill="none"
-          stroke={C.ink}
-          strokeWidth={3}
-          strokeLinecap="round"
-        />
+          {/* Nose and mouth */}
+          <path d="M182 220 L218 220 L200 244 Z" fill={C.nose} strokeLinejoin="round" />
+          <path
+            d="M190 223 L200 223"
+            stroke="#fff"
+            strokeOpacity={0.5}
+            strokeWidth={2}
+            strokeLinecap="round"
+          />
+          {roaring ? (
+            <motion.path
+              d="M176 256 Q200 312 224 256 Q200 266 176 256 Z"
+              fill="#5A1E14"
+              stroke={C.ink}
+              strokeWidth={2.5}
+              initial={{ scaleY: 0 }}
+              animate={{ scaleY: 1 }}
+              style={{ transformBox: "fill-box", transformOrigin: "50% 0%" }}
+            />
+          ) : null}
+          <path
+            d="M200 244 L200 262 M200 262 Q186 276 170 268 M200 262 Q214 276 230 268"
+            fill="none"
+            stroke={C.ink}
+            strokeWidth={3}
+            strokeLinecap="round"
+          />
 
-        {/* Outline draws itself in */}
-        <motion.path
-          d={OUTLINE}
-          fill="none"
-          stroke="var(--accent)"
-          strokeWidth={2}
-          strokeLinejoin="round"
-          initial={reduce ? false : { pathLength: 0, opacity: 1 }}
-          animate={{ pathLength: 1, opacity: 0.6 }}
-          transition={{ duration: 1.6, ease: [0.22, 1, 0.36, 1] }}
-        />
-      </motion.svg>
+          {/* Outline draws itself in */}
+          <motion.path
+            d={OUTLINE}
+            fill="none"
+            stroke="var(--accent)"
+            strokeWidth={2}
+            strokeLinejoin="round"
+            initial={reduce ? false : { pathLength: 0, opacity: 1 }}
+            animate={{ pathLength: 1, opacity: 0.6 }}
+            transition={{ duration: 1.6, ease: [0.22, 1, 0.36, 1] }}
+          />
+        </motion.svg>
+      </motion.div>
     </button>
   );
 }

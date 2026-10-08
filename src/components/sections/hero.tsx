@@ -1,10 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
+import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import Link from "next/link";
 import { ArrowRight, Download, Mail, Sparkles } from "lucide-react";
 import { site } from "@content/site";
 import { Tiger } from "@/components/hero/tiger";
+import { WaveText } from "@/components/interactive/wave-text";
+import { Magnetic } from "@/components/motion/magnetic";
 import { useUI } from "@/components/layout/ui-provider";
 import { Button } from "@/components/ui/button";
 
@@ -21,11 +24,23 @@ export function Hero() {
   const { askAI } = useUI();
   const [q, setQ] = useState("");
   const [first, ...rest] = site.name.split(" ");
+  const ref = useRef<HTMLElement>(null);
+  const reduce = useReducedMotion();
+  // Parallax as the hero scrolls away: text drifts up and fades, the tiger sinks and shrinks.
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
+  const textY = useTransform(scrollYProgress, [0, 1], [0, reduce ? 0 : -120]);
+  const textOpacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
+  const tigerY = useTransform(scrollYProgress, [0, 1], [0, reduce ? 0 : 140]);
+  const tigerScale = useTransform(scrollYProgress, [0, 1], [1, reduce ? 1 : 0.8]);
+  const tigerRotate = useTransform(scrollYProgress, [0, 1], [0, reduce ? 0 : -8]);
 
   return (
-    <section className="relative flex min-h-[100svh] items-center overflow-hidden pt-24 pb-16">
+    <section
+      ref={ref}
+      className="relative flex min-h-[86svh] items-center overflow-hidden pt-24 pb-4"
+    >
       <div className="mx-auto grid w-full max-w-[1100px] items-center gap-10 px-5 lg:grid-cols-[1.15fr_1fr]">
-        <div className="order-2 lg:order-1">
+        <motion.div style={{ y: textY, opacity: textOpacity }} className="order-2 lg:order-1">
           <p
             style={delay(0)}
             className="hero-in text-muted font-mono text-xs tracking-[0.18em] uppercase"
@@ -36,7 +51,11 @@ export function Hero() {
             style={delay(0.08)}
             className="hero-in mt-4 text-6xl leading-[0.95] font-semibold sm:text-7xl lg:text-8xl"
           >
-            {first} <span className="text-gradient">{rest.join(" ")}</span>
+            <WaveText text={first ?? ""} />{" "}
+            <WaveText
+              text={rest.join(" ")}
+              gradient="linear-gradient(100deg, var(--fg) 0%, var(--accent) 55%, var(--accent-2) 100%)"
+            />
           </h1>
           <p style={delay(0.16)} className="hero-in text-muted mt-5 max-w-md text-lg text-pretty">
             {site.positioning}
@@ -84,26 +103,37 @@ export function Hero() {
           </form>
 
           <div style={delay(0.32)} className="hero-in mt-8 flex flex-wrap gap-3">
-            <Button variant="outline" asChild>
-              <Link href="/#contact">
-                <Mail /> Get in touch
-              </Link>
-            </Button>
-            <Button variant="ghost" asChild>
-              <a href={site.resumeUrl} download>
-                <Download /> Resume
-              </a>
-            </Button>
+            <Magnetic>
+              <Button variant="outline" asChild>
+                <Link href="/#contact">
+                  <Mail /> Get in touch
+                </Link>
+              </Button>
+            </Magnetic>
+            <Magnetic>
+              <Button variant="ghost" asChild>
+                <a href={site.resumeUrl} download>
+                  <Download /> Resume
+                </a>
+              </Button>
+            </Magnetic>
           </div>
-        </div>
+        </motion.div>
 
         <div
           style={delay(0.1)}
           className="hero-in order-1 mx-auto w-56 sm:w-72 lg:order-2 lg:w-full lg:max-w-[440px]"
         >
-          <Tiger onClick={() => askAI()} />
+          <motion.div style={{ y: tigerY, scale: tigerScale, rotate: tigerRotate }}>
+            <motion.div
+              animate={reduce ? undefined : { y: [0, -10, 0] }}
+              transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+            >
+              <Tiger onClick={() => askAI()} />
+            </motion.div>
+          </motion.div>
           <p className="text-muted mt-2 text-center font-mono text-[11px]">
-            Tap the tiger to chat with my AI
+            Click the tiger. It roars, then chats.
           </p>
         </div>
       </div>

@@ -15,6 +15,9 @@ export type Experience = {
   period: string;
   current?: boolean;
   location: string;
+  /** One short line shown on the card. */
+  tagline: string;
+  /** Longer summary, shown with the bullets under "Show details". */
   summary: string;
   /** Up to three impact numbers shown on the card; bullets only appear on "Show details". */
   highlights: { value: string; label: string }[];
@@ -37,6 +40,8 @@ export const experience: Experience[] = [
     period: "July 2026 – Present",
     current: true,
     location: "Pune, India",
+    tagline:
+      "I own the platform I built as an intern: new rollouts, single sign-on, and keeping everything healthy.",
     highlights: [
       { value: "5", label: "live deployments owned" },
       { value: "SSO", label: "Azure AD rollout" },
@@ -67,6 +72,7 @@ export const experience: Experience[] = [
     team: "Data Platform Team",
     period: "Jul 2025 – July 2026",
     location: "Pune, India",
+    tagline: "Took the group's data platform from an idea to five live deployments.",
     highlights: [
       { value: "0 → 1", label: "platform built" },
       { value: "5", label: "production deployments" },

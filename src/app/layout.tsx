@@ -7,6 +7,8 @@ import { Analytics } from "@/components/layout/analytics";
 import { CommandPalette } from "@/components/layout/command-palette";
 import { Footer } from "@/components/layout/footer";
 import { Providers } from "@/components/layout/providers";
+import { ScrollProgress } from "@/components/motion/scroll-progress";
+import { Cursor } from "@/components/interactive/cursor";
 import { SiteHeader } from "@/components/layout/site-header";
 import { SmoothScroll } from "@/components/layout/smooth-scroll";
 import { getProjects } from "@/lib/content";
@@ -69,10 +71,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           }}
         />
         <noscript>
-          <style>{`[style*="opacity:0"]{opacity:1!important;transform:none!important}`}</style>
+          <style>{`[style*="opacity:0"]{opacity:1!important;transform:none!important;filter:none!important}`}</style>
         </noscript>
         <Providers>
           <SmoothScroll />
+          <ScrollProgress />
+          <Cursor />
           <SiteHeader />
           <main id="main">{children}</main>
           <Footer />

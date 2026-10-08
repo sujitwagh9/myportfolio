@@ -36,7 +36,7 @@ export const site = {
   about: {
     /** The About section shows only this. Keep it to two sentences. */
     intro:
-      "Data & AI engineer from Pune. I like owning the whole path from raw data to the dashboard, then letting people ask it questions in plain English.",
+      "I'm a data engineer from Pune. I love taking messy data and turning it into something people actually use, and lately, teaching it to answer back in plain English.",
     /** Not shown on the page; the AI assistant uses it to answer questions about you. */
     story: [
       "I'm a Data & AI Engineer on the Data Platform Team at the Kalyani Group in Pune. I joined as an AI/ML intern and now work there full time. I studied Information Technology (B.Tech) at Vishwakarma Institute of Technology, Pune.",
@@ -97,10 +97,10 @@ export const site = {
     {
       title: "Winner, Kalyani Group Hackathon",
       short: "Kalyani Group Hackathon · Winner",
-      prize: "Got Internship @Kalyani Group",
+      prize: "Internship opportunity",
       icon: "award",
       detail:
-        "Cracked the All India level test and Interview conducted by Kalyani Group, was in the Top 7 selected Applicants for Internship",
+        "Cleared an all-India test and interview run by the Kalyani Group, and was one of the top 7 applicants selected for an internship.",
     },
     {
       title: "Competitive programming",
@@ -111,6 +111,17 @@ export const site = {
     },
   ],
   certifications: ["[PLACEHOLDER: add certifications, or delete this entry]"],
+  /**
+   * Coding profiles shown as cards. GitHub and LeetCode stats are fetched live (refreshed every
+   * 6 hours); `fallback` values are shown if those sites can't be reached. GfG and CodeChef have
+   * no public API, so their cards show the values written here.
+   */
+  profiles: {
+    github: { username: "sujitwagh9" },
+    leetcode: { username: "sujitwagh9", fallback: { solved: 454, rating: 1550 } },
+    gfg: { username: "sujitwagh9", badge: "3★ Coder" },
+    codechef: { username: "sujitwagh9", badge: "2★" },
+  },
   /** Logos shown in the About section, in this order. */
   toolkit: [
     "Python",

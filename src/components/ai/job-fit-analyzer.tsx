@@ -64,7 +64,7 @@ export function JobFitAnalyzer() {
           maxLength={MAX}
           onChange={(e) => setJd(e.target.value)}
           placeholder="e.g. We are hiring a Data Engineer to build ingestion pipelines with Airflow and Spark…"
-          className="min-h-64 flex-1"
+          className="min-h-40 flex-1"
           required
           minLength={80}
         />
@@ -80,7 +80,7 @@ export function JobFitAnalyzer() {
       </form>
 
       <div
-        className="glass min-h-80 rounded-[var(--radius-card)] p-5"
+        className="glass min-h-56 rounded-[var(--radius-card)] p-5"
         aria-live="polite"
         aria-busy={state === "loading"}
       >

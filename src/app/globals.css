@@ -192,3 +192,13 @@ html.lenis body {
     transform: translateX(-50%);
   }
 }
+
+/* Border light for TiltCard: show the gradient only in a 1px ring */
+.spotlight-ring {
+  padding: 1px;
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+}

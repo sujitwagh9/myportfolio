@@ -3,5 +3,6 @@ export const sections = [
   { id: "experience", label: "Experience" },
   { id: "ai", label: "Ask AI" },
   { id: "projects", label: "Projects" },
+  { id: "profiles", label: "Profiles" },
   { id: "contact", label: "Contact" },
 ] as const;

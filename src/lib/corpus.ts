@@ -55,6 +55,7 @@ export function buildCorpus(): Chunk[] {
       `What Sujit does: ${site.about.whatIDo.map((w) => `${w.text} (${w.tech})`).join("; ")}.`,
       `What Sujit cares about: ${site.about.values.join("; ")}.`,
       `Contact: ${site.email}. LinkedIn: ${site.socials.linkedin}.`,
+      `Coding profiles: GitHub https://github.com/${site.profiles.github.username}, LeetCode https://leetcode.com/u/${site.profiles.leetcode.username}/ (${site.profiles.leetcode.fallback.solved}+ problems solved, contest rating ${site.profiles.leetcode.fallback.rating}), GeeksforGeeks @${site.profiles.gfg.username} (${site.profiles.gfg.badge}), CodeChef @${site.profiles.codechef.username} (${site.profiles.codechef.badge}).`,
     ].join("\n"),
   });
 

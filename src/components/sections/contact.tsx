@@ -1,6 +1,7 @@
 import { Mail } from "lucide-react";
 import { GithubIcon, LinkedinIcon } from "@/components/ui/brand-icons";
 import { site } from "@content/site";
+import { Reveal } from "@/components/motion/reveal";
 import { Section, SectionHeading } from "./section-heading";
 import { ContactForm } from "./contact-form";
 
@@ -13,9 +14,9 @@ export function Contact() {
       : [{ href: site.socials.github, label: "GitHub", icon: GithubIcon }]),
   ];
   return (
-    <Section id="contact">
-      <SectionHeading index="05" eyebrow="Contact" title="Say hello." />
-      <div className="grid gap-8 lg:grid-cols-[1fr_1.4fr]">
+    <Section id="contact" watermark="Hello">
+      <SectionHeading index="06" eyebrow="Contact" title="Say hello." />
+      <Reveal from="tilt" className="grid gap-8 lg:grid-cols-[1fr_1.4fr]">
         <ul className="space-y-3">
           {links.map((l) => (
             <li key={l.label}>
@@ -32,7 +33,7 @@ export function Contact() {
           ))}
         </ul>
         <ContactForm turnstileSiteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY} />
-      </div>
+      </Reveal>
     </Section>
   );
 }
