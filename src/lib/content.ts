@@ -25,7 +25,12 @@ const projectSchema = z.object({
   stack: z.array(z.string()).default([]),
   tags: z.array(z.string()).default([]),
   github: z.string().optional(),
+  /** Live URL. Projects with a demo get a "Live" badge and a Visit button. */
   demo: z.string().optional(),
+  /** Screenshots under /public: a full-page desktop capture and a phone capture. */
+  images: z.object({ desktop: z.string().optional(), mobile: z.string().optional() }).optional(),
+  /** A few short feature chips for the showcase card. */
+  features: z.array(z.string()).default([]),
   problem: z.string().optional(),
   outcome: z.string().optional(),
 });

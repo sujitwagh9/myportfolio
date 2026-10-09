@@ -208,3 +208,20 @@ html.lenis body {
     opacity: 0;
   }
 }
+
+/* Device mockup: on touch screens (no hover) the page preview scrolls by itself. */
+@keyframes page-scroll {
+  0%,
+  12% {
+    background-position: top;
+  }
+  88%,
+  100% {
+    background-position: bottom;
+  }
+}
+@media (hover: none) and (prefers-reduced-motion: no-preference) {
+  .page-scroll {
+    animation: page-scroll 14s ease-in-out infinite alternate;
+  }
+}

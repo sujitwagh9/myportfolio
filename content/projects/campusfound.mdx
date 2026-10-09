@@ -1,0 +1,54 @@
+---
+title: "CampusFound"
+summary: "A full-stack lost-and-found platform for college campuses: report items with photos, get emailed when a match turns up, and claim things back with verified proof of ownership."
+tagline: "Lost something on campus? Someone probably found it."
+metric: "Live"
+metricLabel: "deployed on Render"
+icon: "map"
+kind: "personal"
+order: 0
+featured: true
+date: "2025-08-02"
+role: "Full-stack developer"
+stack: ["React", "Node.js", "Express", "MongoDB", "Tailwind CSS", "JWT", "Cloudinary", "Vite"]
+tags: ["full stack", "mern", "web app", "deployed", "campus"]
+github: "https://github.com/sujitwagh9/CampusFound"
+demo: "https://campusfound-web.onrender.com/"
+images:
+  desktop: "/projects/campusfound-desktop.webp"
+  mobile: "/projects/campusfound-mobile.webp"
+features: ["Smart matching", "Verified claims", "Photo uploads", "Email alerts", "Admin dashboard"]
+problem: "Lost items on campus end up scattered across notice boards and group chats, and there is no reliable way to prove an item is yours."
+outcome: "A live, deployed web app where students report, search and claim items, with automatic match alerts and admin-reviewed claims."
+---
+
+## Problem
+
+When something is lost on a college campus, reports end up spread across notice boards, group chats and security desks. Finders have no single place to post, owners have no easy way to search, and anyone can claim an item without proving it's theirs.
+
+## What it does
+
+- **Report lost or found items** with a category, campus location and up to 3 photos.
+- **Search and filter** by keyword, type, category and status, with shareable filter links.
+- **Smart matching:** when a found item is reported, owners of similar lost reports are emailed automatically, and every item page shows its possible matches.
+- **Verified claims:** claimants describe details only the owner would know, and an admin reviews each claim before it's approved.
+- **Personal dashboard** to edit, resolve or delete your reports and follow your claims.
+- **Admin tools** to review claims with proof, see stats, manage users and roles, and export users to CSV.
+
+## Architecture
+
+- **Frontend:** React with Vite and Tailwind CSS, with React Router for pages.
+- **Backend:** a Node.js and Express REST API.
+- **Database:** MongoDB.
+- **Auth:** JWT access and refresh tokens. Sign-ups can be restricted to campus email domains.
+- **Media and email:** Cloudinary for photo uploads, and email notifications for matches.
+- **Testing:** API tests run against an in-memory MongoDB.
+- **Hosting:** deployed on Render.
+
+## Stack
+
+React · Vite · Tailwind CSS · Node.js · Express · MongoDB · JWT · Cloudinary
+
+## Outcome
+
+Live at [campusfound-web.onrender.com](https://campusfound-web.onrender.com/), with source on [GitHub](https://github.com/sujitwagh9/CampusFound).

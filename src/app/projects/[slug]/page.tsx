@@ -3,6 +3,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowRight, ExternalLink } from "lucide-react";
 import { Mdx } from "@/components/mdx";
+import { Button } from "@/components/ui/button";
+import { DeviceMockup } from "@/components/ui/device-mockup";
 import { ContentIcon } from "@/components/ui/icon";
 import { TechRow } from "@/components/ui/tech-icon";
 import { GithubIcon } from "@/components/ui/brand-icons";
@@ -70,6 +72,30 @@ export default async function ProjectPage({ params }: Props) {
           )}
         </div>
       </header>
+
+      {project.images?.desktop ? (
+        <section aria-label="Screenshots" className="group mt-10">
+          <DeviceMockup
+            desktop={project.images.desktop}
+            mobile={project.images.mobile}
+            url={project.demo}
+            title={project.title}
+            className="mx-auto max-w-4xl"
+          />
+          {project.demo ? (
+            <div className="mt-6 flex flex-wrap justify-center gap-2">
+              <Button asChild>
+                <a href={project.demo} target="_blank" rel="noopener noreferrer">
+                  Visit live site <ExternalLink />
+                </a>
+              </Button>
+              <p className="text-muted w-full text-center font-mono text-[11px] [@media(hover:none)]:hidden">
+                Hover the screenshot to scroll the page
+              </p>
+            </div>
+          ) : null}
+        </section>
+      ) : null}
 
       {/* At a glance: enough for a skim. The full write-up follows. */}
       <section aria-label="At a glance" className="mt-10 grid gap-4 md:grid-cols-[1fr_auto_1fr]">
