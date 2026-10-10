@@ -22,9 +22,14 @@ export function DeviceMockup({
 }) {
   const host = url ? new URL(url).host : undefined;
   return (
-    <div className={cn("relative pr-[14%] pb-[8%]", className)}>
+    <div className={cn("relative", mobile ? "sm:pr-[14%] sm:pb-[8%]" : "", className)}>
       {desktop ? (
-        <div className="border-border bg-surface overflow-hidden rounded-xl border shadow-[0_30px_80px_-30px_rgba(0,0,0,0.55)]">
+        <div
+          className={cn(
+            "border-border bg-surface overflow-hidden rounded-xl border shadow-[0_30px_80px_-30px_rgba(0,0,0,0.55)]",
+            mobile && "hidden sm:block",
+          )}
+        >
           <div className="border-border bg-surface-2 flex items-center gap-2 border-b px-3 py-2">
             <span className="flex gap-1.5" aria-hidden>
               <span className="size-2 rounded-full bg-[#FF5F57]" />
@@ -48,7 +53,7 @@ export function DeviceMockup({
       ) : null}
 
       {mobile ? (
-        <div className="absolute right-0 bottom-0 w-[30%] max-w-[180px] transition-transform duration-500 group-hover:-translate-y-2 group-hover:rotate-[-2deg]">
+        <div className="mx-auto w-[64%] max-w-[260px] transition-transform duration-500 group-hover:-translate-y-2 group-hover:rotate-[-2deg] sm:absolute sm:right-0 sm:bottom-0 sm:mx-0 sm:w-[30%] sm:max-w-[180px]">
           <div className="rounded-[1.4rem] border-[5px] border-[#111] bg-[#111] shadow-[0_25px_60px_-20px_rgba(0,0,0,0.6)]">
             <div className="relative overflow-hidden rounded-[1rem]">
               <Image
@@ -57,7 +62,8 @@ export function DeviceMockup({
                 width={390}
                 height={844}
                 className="block h-auto w-full"
-                sizes="180px"
+                sizes="(min-width: 640px) 180px, 260px"
+                quality={90}
               />
               <span
                 aria-hidden

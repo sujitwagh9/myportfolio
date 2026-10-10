@@ -12,7 +12,7 @@ import { useUI } from "@/components/layout/ui-provider";
 import { Button } from "@/components/ui/button";
 
 const PROMPTS = [
-  "What does Sujit do?",
+  "What has Sujit built?",
   "What are Sujit's strongest skills?",
   "Which hackathons has Sujit won?",
 ];

@@ -1,0 +1,46 @@
+---
+title: "KrishiSetu"
+summary: "A marketplace that connects farmers directly with buyers and companies, with live mandi prices, crop selling, storage and transport booking, and an AI helper."
+tagline: "Bridging the gap between farmers and the market."
+metric: "3 services"
+metricLabel: "Next.js · Express · Flask"
+icon: "sprout"
+kind: "personal"
+area: ["fullstack", "ai"]
+order: 2
+date: "2025-04-06"
+role: "Full-stack developer"
+stack: ["Next.js", "Node.js", "Express", "MongoDB", "Flask", "Gemini"]
+tags: ["agritech", "marketplace", "full stack", "hackathon"]
+github: "https://github.com/sujitwagh9/KrishiSetu"
+problem: "Farmers sell through middlemen and rarely see current market prices, while buyers and companies have no direct way to reach them."
+outcome: "A working platform with separate farmer and company flows, live government market data, logistics booking and price dashboards."
+---
+
+## Problem
+
+Small farmers usually sell through middlemen, without good visibility of current market prices, while buyers and companies have no simple way to reach them directly.
+
+## What it does
+
+- **Separate farmer and company accounts**, each with its own sign-up, login and session handling.
+- **Sell and buy crops** directly on the platform.
+- **Live market insights:** a Flask service pulls mandi prices from the Government of India's open data API (data.gov.in), filtered by state, district and commodity.
+- **Logistics:** list and book storage space and transport vehicles.
+- **Planning tools for farmers:** price statistics, budget planning and government schemes.
+- **Company dashboards** for prices and stats, with charts.
+- **AI helper** powered by Gemini.
+
+## Architecture
+
+- **Frontend and API routes:** Next.js (App Router) with Tailwind, Framer Motion and Recharts.
+- **Backend:** a Node.js and Express service with MongoDB, JWT auth and bcrypt.
+- **Market data service:** Flask, calling the data.gov.in API.
+
+## Stack
+
+Next.js · Node.js · Express · MongoDB · Flask · Gemini
+
+## Outcome
+
+A three-service platform that puts market prices, buyers and logistics in one place for farmers.

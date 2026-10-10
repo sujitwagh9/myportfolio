@@ -1,38 +1,79 @@
 ---
-title: "X-ray Image Classifier"
-summary: "A web app that classifies chest X-ray images for multiple diseases using a CNN, with heatmaps and downloadable reports."
-date: "2024-12-01"
-tagline: "Chest X-ray triage with a CNN and heatmaps."
-metric: "CNN"
-metricLabel: "multi-disease classifier"
+title: "Chest X-Ray Analysis"
+summary: "Pneumonia screening, made visible: upload a chest X-ray to get a pneumonia probability, a Grad-CAM heatmap of what drove the decision, and a Gemini-drafted report exported as a PDF."
+tagline: "Pneumonia screening, made visible."
+metric: "Grad-CAM"
+metricLabel: "explainable screening"
 icon: "scan"
 kind: "personal"
-order: 12
-featured: false
-role: "Developer"
-stack: ["Flask", "CNN", "Python", "HTML/CSS"]
-tags: ["computer vision", "deep learning", "healthcare"]
+area: ["ai"]
+order: 1
+featured: true
+date: "2024-12-01"
+role: "Built end to end: model, explainability, report pipeline and web app"
+stack: ["Python", "Flask", "TensorFlow", "EfficientNetB0", "Grad-CAM", "Gemini"]
+tags: ["computer vision", "deep learning", "healthcare", "explainable ai", "llm"]
 github: "https://github.com/sujitwagh9/Pneumonia-Detection-and-Report-Generation"
-problem: "Reading chest X-rays for several possible diseases is slow; a first-pass classifier can help prioritise."
-outcome: "A working web app with image upload, real-time prediction, heatmap explanations and downloadable reports."
+demoHost: "localhost:5000"
+features:
+  [
+    "Grad-CAM heatmaps",
+    "Compare view",
+    "Gemini-drafted report",
+    "PDF export",
+    "Auto-delete after 60 min",
+  ]
+walkthrough:
+  - src: "/projects/xray-v2-1-upload.webp"
+    mobile: "/projects/xray-v2-m1.webp"
+    caption: "Drop in a frontal chest X-ray"
+  - src: "/projects/xray-v2-2-processing.webp"
+    mobile: "/projects/xray-v2-m2.webp"
+    caption: "Queued, classified, explained, then reported"
+  - src: "/projects/xray-v2-3-pneumonia.webp"
+    mobile: "/projects/xray-v2-m3.webp"
+    caption: "Pneumonia flagged, with honest uncertainty"
+  - src: "/projects/xray-v2-4-compare.webp"
+    mobile: "/projects/xray-v2-m4.webp"
+    caption: "Slide between the X-ray and the Grad-CAM heatmap"
+  - src: "/projects/xray-v2-5-normal.webp"
+    mobile: "/projects/xray-v2-m5.webp"
+    caption: "A second X-ray: no pneumonia detected"
+  - src: "/projects/xray-v2-6-report.webp"
+    mobile: "/projects/xray-v2-m6.webp"
+    caption: "Everything bundled into a PDF report"
+problem: "A bare pneumonia score is hard to trust. Clinicians need to see where a model looked and how sure it is before a result is useful."
+outcome: "A working screening app that pairs every prediction with a heatmap, a calibrated confidence, a borderline warning near the threshold, and a shareable PDF report."
 ---
 
 ## Problem
 
-Chest X-rays can show several different diseases, and a quick first-pass classification helps decide what needs attention first.
+A classifier that only says "pneumonia: yes" isn't much use in practice. To be worth anything as a screening aid, a result has to show **where** the model looked, **how confident** it is, and come in a form that can be passed on for clinical review.
 
-## Architecture
+## What it does
 
-- A **CNN** classifies uploaded chest X-ray images across multiple disease classes.
-- A **Flask** back end serves predictions in real time.
-- Results are shown with **heatmaps** that highlight the regions the model focused on, and can be downloaded as a visual report.
+- **Upload** a frontal chest X-ray (PNG or JPEG, up to 10 MB). You can also paste one in.
+- **Classify:** an EfficientNetB0 network trained on 5,856 labelled chest X-rays estimates the probability of pneumonia against a 0.5 decision threshold.
+- **Explain:** Grad-CAM highlights the lung regions that most influenced the decision. You can view the original image, the heatmap, a blend, or a side-by-side compare slider, with zoom and pan.
+- **Report:** a structured screening note is drafted by Gemini for clinician review, then bundled with the images into a downloadable PDF.
+- **Be honest about uncertainty:** results near the threshold are flagged as borderline and inconclusive.
+- **Privacy:** images are processed on the server only, never used for training, and auto-deleted after 60 minutes.
+
+## How it works
+
+Each analysis runs as a background job with live progress: **waiting in queue → classifying and computing Grad-CAM → drafting the written report → building the PDF**. The whole pipeline takes roughly 10–40 seconds.
+
+## Demo
+
+The walkthrough above was recorded from the app running locally with two chest X-rays:
+
+- The **first** came back at a pneumonia probability of 0.531. The app flags this as pneumonia but warns it's borderline, which is exactly the kind of case where a heatmap and a clinician matter.
+- The **second** came back at 0.350, so no pneumonia detected, with 65% confidence.
 
 ## Stack
 
-Flask · CNN · Python · HTML/CSS
+Python · Flask · TensorFlow · EfficientNetB0 · Grad-CAM · Gemini API
 
 ## Outcome
 
-A working web app with image upload, real-time prediction, an intuitive results UI with heatmaps, and downloadable visual reports.
-
-[PLACEHOLDER: add dataset name and evaluation metrics if you have them.]
+A research prototype that turns a single prediction into something a reviewer can check: a probability, a confidence, a heatmap and a written report, all in one PDF. It's built for research and education only, and it's not a medical device.

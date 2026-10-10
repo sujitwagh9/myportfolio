@@ -1,0 +1,31 @@
+---
+title: "Course-Aid"
+summary: "The backend of a learning management system: authentication with email verification, role-based access, course management and Razorpay payments with webhooks."
+tagline: "An LMS backend with real payments built in."
+metric: "Razorpay"
+metricLabel: "payments + webhooks"
+icon: "book"
+kind: "personal"
+area: ["fullstack"]
+order: 7
+date: "2024-12-10"
+role: "Backend developer"
+stack: ["Node.js", "Express", "MongoDB", "JWT", "Razorpay"]
+tags: ["backend", "lms", "payments", "rest api"]
+github: "https://github.com/sujitwagh9/Course-Aid"
+problem: "An online learning platform needs secure accounts, roles for students and instructors, and reliable paid enrolment."
+outcome: "A REST API covering the full account lifecycle, course management and payment verification through webhooks."
+---
+
+## What it does
+
+- **Accounts:** register, log in and log out, with email verification links, and forgot/reset password.
+- **Role-based access** for admins, instructors and students.
+- **Courses:** instructors upload courses; students enrol and access them.
+- **Payments:** Razorpay integration to create and verify payments, with webhook handling for payment notifications.
+- **Secure sessions** with JWT access and refresh tokens, and bcrypt password hashing.
+- **Validation and errors:** Joi validation and centralised error-handling middleware.
+
+## Stack
+
+Node.js · Express · MongoDB (Mongoose) · JWT · bcrypt · Nodemailer · Razorpay · Joi

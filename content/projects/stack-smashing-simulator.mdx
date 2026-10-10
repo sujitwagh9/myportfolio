@@ -1,0 +1,42 @@
+---
+title: "Stack Smashing Simulator"
+summary: "An educational tool that parses C code, emulates its stack, detects buffer-overflow vulnerabilities and visualises what goes wrong."
+tagline: "See a buffer overflow happen, one stack frame at a time."
+metric: "C → stack"
+metricLabel: "overflow detection"
+icon: "shield"
+kind: "personal"
+area: ["systems"]
+order: 5
+date: "2024-08-28"
+role: "Developer"
+stack: ["Python", "C"]
+tags: ["security", "systems", "buffer overflow", "education"]
+github: "https://github.com/sujitwagh9/StackSmashingSimulator"
+problem: "Stack-based buffer overflows are hard to understand from code alone; you have to see the stack to get it."
+outcome: "A tool that walks through vulnerable C code, flags unsafe calls like strcpy and gets, and shows the effect on the stack."
+---
+
+## Problem
+
+Stack-based buffer overflows, such as an unchecked `strcpy` into a 10-byte buffer, are a classic security bug. They're hard to understand from source code alone, because what matters is what happens to the stack.
+
+## What it does
+
+- **Parses C code** to find functions, buffers and calls.
+- **Emulates the stack** as the program runs.
+- **Detects vulnerabilities** such as unsafe `strcpy` and `gets` calls that can overflow a buffer.
+- **Suggests protections** for the vulnerable code.
+- **Visualises** the stack so the overflow is easy to see.
+
+## Architecture
+
+Separate Python modules for each stage: parser, emulator, vulnerability detector, protector and visualiser, tied together by a main script.
+
+## Stack
+
+Python · C
+
+## Outcome
+
+A teaching tool that makes a low-level security concept visible.

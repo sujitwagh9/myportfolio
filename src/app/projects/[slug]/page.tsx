@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowRight, ExternalLink } from "lucide-react";
 import { Mdx } from "@/components/mdx";
 import { Button } from "@/components/ui/button";
+import { DemoWalkthrough } from "@/components/ui/demo-walkthrough";
 import { DeviceMockup } from "@/components/ui/device-mockup";
 import { ContentIcon } from "@/components/ui/icon";
 import { TechRow } from "@/components/ui/tech-icon";
@@ -72,6 +73,20 @@ export default async function ProjectPage({ params }: Props) {
           )}
         </div>
       </header>
+
+      {!project.demo && project.walkthrough.length ? (
+        <section aria-label="Demo" className="group mx-auto mt-10 max-w-4xl">
+          <DemoWalkthrough
+            steps={project.walkthrough}
+            host={project.demoHost}
+            title={project.title}
+          />
+          <p className="text-muted mt-2 text-center font-mono text-[11px]">
+            Recorded from the app running locally, on desktop and mobile · use the arrows or the
+            steps to move through it
+          </p>
+        </section>
+      ) : null}
 
       {project.images?.desktop ? (
         <section aria-label="Screenshots" className="group mt-10">

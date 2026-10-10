@@ -1,4 +1,11 @@
 import {
+  Activity,
+  AudioLines,
+  BookOpen,
+  GitBranch,
+  PenLine,
+  ShieldAlert,
+  Sprout,
   Archive,
   Award,
   Boxes,
@@ -32,6 +39,13 @@ const ICONS: Record<string, LucideIcon> = {
   settings: Settings2,
   trophy: Trophy,
   workflow: Workflow,
+  sprout: Sprout,
+  activity: Activity,
+  pen: PenLine,
+  book: BookOpen,
+  shield: ShieldAlert,
+  git: GitBranch,
+  audio: AudioLines,
 };
 
 export function ContentIcon({ name, className }: { name?: string; className?: string }) {

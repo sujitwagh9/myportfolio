@@ -3,44 +3,60 @@ import { ArrowRight, ArrowUpRight, MousePointer2 } from "lucide-react";
 import { Reveal } from "@/components/motion/reveal";
 import { Button } from "@/components/ui/button";
 import { GithubIcon } from "@/components/ui/brand-icons";
+import { DemoWalkthrough } from "@/components/ui/demo-walkthrough";
 import { DeviceMockup } from "@/components/ui/device-mockup";
 import { TechRow } from "@/components/ui/tech-icon";
 import type { Project } from "@/lib/content";
 import { isPlaceholder } from "@/lib/utils";
 
-/** Full-width card for a deployed project: device mockup on one side, details and links on the other. */
+/**
+ * Full-width card for a project you can see working: a live site in a device mockup,
+ * or, for projects that run locally, a recorded step-by-step demo.
+ */
 export function LiveShowcase({ project: p }: { project: Project }) {
   const host = p.demo ? new URL(p.demo).host : "";
+  const recorded = !p.demo && p.walkthrough.length > 0;
   return (
     <Reveal from="up">
       <article className="glass group grid items-center gap-8 overflow-hidden rounded-[var(--radius-card)] p-5 sm:p-8 lg:grid-cols-[1.3fr_1fr] lg:gap-10">
-        <a
-          href={p.demo}
-          target="_blank"
-          rel="noopener noreferrer"
-          data-cursor="Open"
-          aria-label={`Open ${p.title} live site`}
-          className="relative block"
-        >
-          <DeviceMockup
-            desktop={p.images?.desktop}
-            mobile={p.images?.mobile}
-            url={p.demo}
-            title={p.title}
-          />
-          <span className="bg-fg text-bg absolute top-12 left-3 inline-flex items-center gap-1 rounded-full px-2.5 py-1 font-mono text-[10px] opacity-90 transition-opacity group-hover:opacity-0 [@media(hover:none)]:hidden">
-            <MousePointer2 className="size-3" /> hover to scroll
-          </span>
-        </a>
+        {recorded ? (
+          <DemoWalkthrough steps={p.walkthrough} host={p.demoHost} title={p.title} />
+        ) : (
+          <a
+            href={p.demo}
+            target="_blank"
+            rel="noopener noreferrer"
+            data-cursor="Open"
+            aria-label={`Open ${p.title} live site`}
+            className="relative block"
+          >
+            <DeviceMockup
+              desktop={p.images?.desktop}
+              mobile={p.images?.mobile}
+              url={p.demo}
+              title={p.title}
+            />
+            <span className="bg-fg text-bg absolute top-12 left-3 hidden items-center gap-1 rounded-full px-2.5 py-1 font-mono text-[10px] opacity-90 transition-opacity group-hover:opacity-0 sm:inline-flex [@media(hover:none)]:hidden">
+              <MousePointer2 className="size-3" /> hover to scroll
+            </span>
+          </a>
+        )}
 
         <div>
-          <p className="text-signal flex items-center gap-2 font-mono text-xs">
-            <span className="relative flex size-2">
-              <span className="bg-signal absolute inline-flex size-full animate-ping rounded-full opacity-60" />
-              <span className="bg-signal relative inline-flex size-2 rounded-full" />
-            </span>
-            Live · {host}
-          </p>
+          {recorded ? (
+            <p className="text-accent flex items-center gap-2 font-mono text-xs">
+              <span className="bg-accent inline-flex size-2 rounded-full" />
+              Recorded demo · runs locally
+            </p>
+          ) : (
+            <p className="text-signal flex items-center gap-2 font-mono text-xs">
+              <span className="relative flex size-2">
+                <span className="bg-signal absolute inline-flex size-full animate-ping rounded-full opacity-60" />
+                <span className="bg-signal relative inline-flex size-2 rounded-full" />
+              </span>
+              Live · {host}
+            </p>
+          )}
           <h3 className="mt-3 text-3xl font-semibold">{p.title}</h3>
           <p className="text-muted mt-2 text-pretty">{p.tagline ?? p.summary}</p>
 

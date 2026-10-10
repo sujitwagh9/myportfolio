@@ -8,9 +8,10 @@ export const site = {
   company: "Kalyani Group",
   location: "Pune, India",
   /** The one line under your name in the hero. Keep it short. */
-  positioning: "I build data platforms, and the AI that makes them answer back.",
+  positioning:
+    "Software engineer who builds end to end: web apps, ML models that explain themselves, and the data platforms underneath.",
   shortBio:
-    "Data & AI Engineer at the Kalyani Group. I built the group's self-hosted, open-source Data Platform (Apache NiFi, Apache Superset, PostgreSQL, Docker) as an intern, and now run it full time across five production environments.",
+    "Software engineer from Pune. I build full-stack web apps (React, Next.js, Node.js), deep-learning projects (computer vision, audio), systems tools, and the Kalyani Group's self-hosted data platform, which I run full time.",
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
   email: "sujitwagh1233@gmail.com",
   resumeUrl: "/resume.pdf",
@@ -19,6 +20,9 @@ export const site = {
     github: "https://github.com/sujitwagh9",
   },
   keywords: [
+    "Software Engineer",
+    "Full Stack Developer",
+    "Machine Learning",
     "Data Engineer",
     "AI Engineer",
     "Apache NiFi",
@@ -36,7 +40,7 @@ export const site = {
   about: {
     /** The About section shows only this. Keep it to two sentences. */
     intro:
-      "I'm a data engineer from Pune. I love taking messy data and turning it into something people actually use, and lately, teaching it to answer back in plain English.",
+      "I'm Sujit, an engineer from Pune who likes building things end to end. Web apps people actually use, ML models that show their reasoning, and the data platforms underneath. By day I run the Kalyani Group's data platform; the rest of the time I'm shipping side projects or grinding LeetCode.",
     /** Not shown on the page; the AI assistant uses it to answer questions about you. */
     story: [
       "I'm a Data & AI Engineer on the Data Platform Team at the Kalyani Group in Pune. I joined as an AI/ML intern and now work there full time. I studied Information Technology (B.Tech) at Vishwakarma Institute of Technology, Pune.",
@@ -125,16 +129,20 @@ export const site = {
   /** Logos shown in the About section, in this order. */
   toolkit: [
     "Python",
-    "SQL",
+    "C/C++",
+    "JavaScript",
+    "TypeScript",
+    "React",
+    "Next.js",
+    "Node.js",
+    "Flask",
+    "MongoDB",
+    "PostgreSQL",
+    "TensorFlow",
+    "Docker",
     "Apache NiFi",
     "Apache Superset",
-    "PostgreSQL",
-    "Docker",
-    "Nginx",
-    "Grafana",
-    "Apache Spark",
     "LLM agents",
-    "MCP servers",
     "Linux",
   ],
 } as const;

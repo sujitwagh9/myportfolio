@@ -10,6 +10,8 @@ export type ExperienceEntity = {
 
 export type Experience = {
   company: string;
+  /** Square logo under /public (shown on a navy tile). */
+  logo?: string;
   role: string;
   team?: string;
   period: string;
@@ -24,6 +26,8 @@ export type Experience = {
   /** Slugs of work case studies (content/projects, kind: "work") linked from this role. */
   caseStudies?: string[];
   bullets: string[];
+  /** 4–5 short bullets for the role popup. Wrap key words in **double asterisks** to highlight them. */
+  points: string[];
   stack: string[];
   /** Not shown on the page; the AI assistant uses it. */
   entities?: ExperienceEntity[];
@@ -35,6 +39,7 @@ const DEPLOYED =
 export const experience: Experience[] = [
   {
     company: "Kalyani Group",
+    logo: "/logos/kalyani.png",
     role: "Data & AI Engineer",
     team: "Data Team",
     period: "July 2026 – Present",
@@ -55,6 +60,13 @@ export const experience: Experience[] = [
       "Building new platform features based on feedback from existing deployments.",
       "Working on the Prompt to Dashboard project for the Internal Team",
     ],
+    points: [
+      "Own **every live deployment** of the Data Platform across the group: monitoring, incidents and uptime.",
+      "Rolling the platform out to **new group companies**.",
+      "Extending **Azure AD single sign-on** from Superset to every platform service.",
+      "Building **Prompt to Dashboard** for the internal team.",
+      "Shipping **new platform features** based on feedback from live deployments.",
+    ],
     stack: [
       "Apache NiFi",
       "Apache Superset",
@@ -68,6 +80,7 @@ export const experience: Experience[] = [
   },
   {
     company: "Kalyani Group",
+    logo: "/logos/kalyani.png",
     role: "AI/ML Intern",
     team: "Data Platform Team",
     period: "Jul 2025 – July 2026",
@@ -97,6 +110,13 @@ export const experience: Experience[] = [
       "Co-designed a Config Manager that generates each deployment's configuration from a few inputs (company, SSL certificates, services, authentication), reducing manual errors and speeding up deployments.",
       "Encrypted Docker Compose files with a unique key per deployment, so credentials stay protected even with VM access, and kept the key out of shell history and process lists.",
       "Set up Nginx as an SSL-terminating reverse proxy with per-service FQDNs, and coordinated DNS and network access with the networking team.",
+    ],
+    points: [
+      "Took the group's **Data Platform from research to production**, scoping V1 around **7 open-source tools**.",
+      "Deployed it to **5 production environments**: BFAL US, Saarloha, KSSL, BFL and the IoT team.",
+      "Archived **1.4 TB of IoT data into 18 GB** when the team was running out of storage.",
+      "Built a **custom pgAgent Docker image** and added **Azure AD SSO** to Superset.",
+      "Secured deployments with **Nginx + TLS** and **encrypted Compose files** with per-deployment keys.",
     ],
     stack: [
       "Apache NiFi",

@@ -16,6 +16,8 @@ const projectSchema = z.object({
   icon: z.string().optional(),
   /** "work" case studies are linked from Experience; only "personal" ones appear under Projects. */
   kind: z.enum(["personal", "work"]).default("personal"),
+  /** What kind of engineering a personal project shows; drives the Projects filter. */
+  area: z.array(z.enum(["fullstack", "ai", "systems", "data"])).default([]),
   /** Hidden projects are left out of the site, sitemap and AI until ready. */
   hidden: z.boolean().default(false),
   date: z.string(),
@@ -29,6 +31,20 @@ const projectSchema = z.object({
   demo: z.string().optional(),
   /** Screenshots under /public: a full-page desktop capture and a phone capture. */
   images: z.object({ desktop: z.string().optional(), mobile: z.string().optional() }).optional(),
+  /** Recorded demo for projects without a public URL: ordered screenshots with captions. */
+  walkthrough: z
+    .array(
+      z.object({
+        src: z.string(),
+        /** The same step on a phone (390×844 capture). */
+        mobile: z.string().optional(),
+        caption: z.string(),
+        detail: z.string().optional(),
+      }),
+    )
+    .default([]),
+  /** Where the demo runs, shown in the walkthrough's address bar (e.g. "localhost:5000"). */
+  demoHost: z.string().optional(),
   /** A few short feature chips for the showcase card. */
   features: z.array(z.string()).default([]),
   problem: z.string().optional(),

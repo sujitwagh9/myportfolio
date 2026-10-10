@@ -4,8 +4,7 @@ import { Contact } from "@/components/sections/contact";
 import { Experience } from "@/components/sections/experience";
 import { Hero } from "@/components/sections/hero";
 import { Profiles } from "@/components/sections/profiles";
-import { LiveShowcase } from "@/components/sections/live-showcase";
-import { ProjectGrid } from "@/components/sections/projects";
+import { ProjectsExplorer } from "@/components/sections/projects";
 import { Section, SectionHeading } from "@/components/sections/section-heading";
 import { getProjects } from "@/lib/content";
 
@@ -14,8 +13,8 @@ export const revalidate = 21600;
 
 export default function HomePage() {
   const personal = getProjects().filter((p) => p.kind === "personal");
-  // Deployed projects with screenshots get the big showcase; the rest are compact cards.
-  const showcased = personal.filter((p) => p.demo && p.images?.desktop);
+  // Projects you can see working (live site or recorded demo) get the big showcase.
+  const showcased = personal.filter((p) => (p.demo && p.images?.desktop) || p.walkthrough.length);
   const others = personal.filter((p) => !showcased.includes(p));
 
   return (
@@ -27,12 +26,10 @@ export default function HomePage() {
       {personal.length ? (
         <Section id="projects" watermark="Projects">
           <SectionHeading index="03" eyebrow="Projects" title="Things I've built." />
-          <div className="space-y-6">
-            {showcased.map((p) => (
-              <LiveShowcase key={p.slug} project={p} />
-            ))}
-            {others.length ? <ProjectGrid projects={others} /> : null}
-          </div>
+          <ProjectsExplorer
+            showcased={showcased.map((p) => ({ ...p, body: "" }))}
+            repos={others.map((p) => ({ ...p, body: "" }))}
+          />
         </Section>
       ) : null}
 

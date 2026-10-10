@@ -20,10 +20,10 @@ type Msg = {
 };
 
 export const STARTER_QUESTIONS = [
-  "What does Sujit work on at the Kalyani Group?",
-  "Which tools does Sujit use for data ingestion?",
-  "Tell me about the Dark Store Network project.",
-  "What hackathons has Sujit won?",
+  "What kind of engineer is Sujit?",
+  "Which full-stack apps has Sujit built?",
+  "What ML projects has Sujit worked on?",
+  "What does Sujit do at the Kalyani Group?",
 ];
 
 const MAX_INPUT = 1000;

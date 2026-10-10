@@ -112,4 +112,10 @@ export const skills: Skill[] = [
   { name: "Node.js", group: "lang", level: 2, related: ["JavaScript"] },
   { name: "Flask", group: "lang", level: 2, related: ["Python"] },
   { name: "C/C++", group: "lang", level: 2 },
+  { name: "TypeScript", group: "lang", level: 2, related: ["JavaScript", "Next.js"] },
+  { name: "React", group: "lang", level: 2, related: ["Next.js", "JavaScript"] },
+  { name: "Express", group: "lang", level: 3, related: ["Node.js", "MongoDB"] },
+  { name: "Java", group: "lang", level: 2 },
+  { name: "TensorFlow", group: "ai", level: 2, related: ["CNNs", "Python"] },
+  { name: "Grad-CAM", group: "ai", level: 2, related: ["CNNs", "TensorFlow"] },
 ];

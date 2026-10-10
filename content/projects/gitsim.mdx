@@ -1,0 +1,40 @@
+---
+title: "GitSim"
+summary: "A visual, interactive simulation of basic version-control operations (add, commit, branch, switch and merge) for learning how Git works."
+tagline: "Learn Git by watching it work."
+metric: "5 operations"
+metricLabel: "add · commit · branch · switch · merge"
+icon: "git"
+kind: "personal"
+area: ["systems", "fullstack"]
+order: 6
+date: "2025-04-24"
+role: "Developer (team project)"
+stack: ["Python", "Flask", "JavaScript"]
+tags: ["version control", "git", "education", "simulation"]
+github: "https://github.com/sujitwagh9/Version_Control_System_Simulation"
+problem: "Git's branching model is abstract, and beginners struggle to picture what commands actually do."
+outcome: "A browser-based simulator where every command updates a live view of the repository's state."
+---
+
+## Problem
+
+Git's model of commits, branches and merges is abstract. Beginners memorise commands without a picture of what they do to the repository.
+
+## What it does
+
+- **Simulates core version-control operations:** add, commit, create branch, switch branch and merge.
+- **Shows the repository state** after every operation, so you can see branches diverge and merge.
+- **Reset** to start again from a clean state.
+
+## Architecture
+
+A Flask backend keeps the simulated repository state and exposes one endpoint per operation. The browser frontend calls them and redraws the state.
+
+## Stack
+
+Python · Flask · JavaScript · HTML/CSS
+
+## Outcome
+
+An educational tool that turns Git commands into something you can see.

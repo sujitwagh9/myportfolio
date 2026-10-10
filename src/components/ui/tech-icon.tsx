@@ -5,6 +5,7 @@ import {
   HardDrive,
   LineChart,
   Lock,
+  ScanEye,
   Snowflake,
   UserCheck,
   type LucideIcon,
@@ -23,6 +24,7 @@ const FALLBACK: Record<string, LucideIcon> = {
   "power bi": BarChart3,
   matplotlib: LineChart,
   "pgagent (custom docker image)": CalendarClock,
+  "grad-cam": ScanEye,
 };
 
 /** A brand logo for a tech name, or a monogram when no logo exists. Decorative: pair with a label. */

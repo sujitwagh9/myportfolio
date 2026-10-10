@@ -1,0 +1,33 @@
+---
+title: "Animal Sound Classifier"
+summary: "Classifies bird species from audio by turning sound into spectrograms for a deep-learning model, and flags whether the animal may be in distress."
+tagline: "Hear a bird, name the species, check for distress."
+metric: "Audio → species"
+metricLabel: "spectrogram + MobileNetV2"
+icon: "audio"
+kind: "personal"
+area: ["ai"]
+order: 9
+date: "2024-11-23"
+role: "Developer"
+stack: ["Python", "TensorFlow", "Flask"]
+tags: ["deep learning", "audio", "computer vision", "spectrogram"]
+github: "https://github.com/sujitwagh9/Animal-Species-Prediction"
+problem: "Identifying species and signs of distress from animal sounds normally needs an expert listener."
+outcome: "Upload a recording to get the predicted species and a distress check, through a simple web interface."
+---
+
+## What it does
+
+- **Upload a sound recording** through a Flask web app.
+- **Audio to image:** the recording is turned into a spectrogram with librosa.
+- **Classify:** a MobileNetV2-based TensorFlow model predicts the bird species from the spectrogram.
+- **Distress check:** the sound's frequency profile is compared against typical values for that species to flag possible pain or distress.
+
+## Stack
+
+Python · TensorFlow · librosa · Flask
+
+## Outcome
+
+An end-to-end audio classification app that reuses a vision model by treating sound as an image.
